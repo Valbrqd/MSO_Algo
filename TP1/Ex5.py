@@ -85,5 +85,3 @@ def josephus(lst):
     return lst.tete.valeur
 
 print(josephus(maLst))
-
-
