@@ -2,7 +2,8 @@ class ListeChainee():
     def __init__(self):
         self.premier = None
         self.taille = 0
-    
+
+
     def inserer(self, valeur,k):
         new = noeud(valeur)
         i  = 0
@@ -54,10 +55,10 @@ class noeud():
 liste = ListeChainee()
 liste.inserer(1,0)
 liste.inserer("test",1)
+liste.inserer(2,2)
 
 
 print(liste.rechercher("test").valeur)
-liste.supprimer(1)
 print(liste.rechercher(1).valeur)
 print(liste.taille)
 print(liste.est_vide())

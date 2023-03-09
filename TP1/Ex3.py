@@ -28,11 +28,8 @@ class ListeChainee():
             return temp.valeur
 
 
-    def rechercher(self, valeur):
-        temp = self.premier
-        while temp.valeur != valeur:
-            temp = temp.suivant
-        return temp
+    def rechercher(self):
+        return self.premier.valeur
 
     def taille(self):
         return self.taille
@@ -45,5 +42,26 @@ class noeud():
         self.valeur = valeur
         self.suivant = None
 
+with open("TP1/ex3.txt", "r") as fichier:
+    # Lire chaque ligne et les stocker dans une liste
+    lignes = fichier.readlines()
+    fichier.close()
 
+liste = ListeChainee()
+dic = {"{": "}", "(": ")", "[": "]", "<": ">"}
+for ligne in lignes : 
+    for val in ligne: 
+        if val in dic.keys():
+            liste.inserer(val)
+        elif not liste.est_vide() or dic[liste.rechercher()] == val:
+            liste.supprimer()
+        
+        
 
+print(liste.est_vide())
+if liste.est_vide():
+    print("Pas de probleme de parentheses")
+else:
+    print("Probleme de parentheses")
+
+print(lignes)
