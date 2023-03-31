@@ -1,0 +1,5 @@
+1.a. Dans le meilleur des cas l'objet rechercher est au premier indice donc compléxité O(1)
+1.b. Dans le pire des cas l'objet rechercher est au dernier indice donc compléxité O(n)
+1.c. En moyenne la complexité est de O(n)
+
+2.a 

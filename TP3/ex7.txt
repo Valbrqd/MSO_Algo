@@ -1,0 +1,28 @@
+Appliquez le Master Theorem aux récurrences suivantes :
+a) T(n) = 8T(n/2) + 1000n²
+    a = 8 | b = 2 | c = 2
+    logb(a) = 3 et 3 > c donc T(n) = O(n^logb(a)) = O(n^3)	
+
+b) T(n) = 2T(n/2) + 10n
+    a = 2 | b = 2 | c = 1
+    logb(a) = 1 et 1 = c donc T(n) = O(n^c) = O(n)
+
+c) T(n) = 2T(n/2) + n²
+    a = 2 | b = 2 | c = 2
+    logb(a) = 1 et c > 1 il faut donc verifier a*f(n/b) <= k*f(n) avec k < 1
+    a*f(n/b) = (n^2)/2 | k*f(n) = k*n² avec k = 1/2 on verifie la condition de regularité et on a donc T(n) = O(f(n)) = O(n
+    
+2)(a)
+a = 2^n | b = 2 donc logb(a) = n et n est variable dont on ne peut pas utiliser le master theorem
+(b) a = 1/2 < 1 ce qui n'est pas possible car on ne peut pas diviser notre probleme en moins de problème 
+(c) La soustraction rend la chose pas possible 
+(d) T(n) = T(n/2) + n(2 - cos(n))
+    log2(1) = 0 et c = 1 > 0 
+    Condition de regularité : a*f(n/b) <= k*f(n) avec k < 1
+    n/2(2-cos(n/2)) <= k*n(2-cos(n))
+    n-n/2cos(n/2) <= 2k*n-k*ncos(n) soit n = 2piC
+    2piC + piC*cos(piC) <= 4kpiC - 2k*piC*cos(2piC)
+    2piC + piC <= 4kpiC - 2k*piC
+    3piC <= 2kpiC
+    k >= 3/2
+    Donc pas bonne condition.
