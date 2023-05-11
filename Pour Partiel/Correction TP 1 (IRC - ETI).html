@@ -1,0 +1,873 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Correction TP 1 (IRC - ETI)</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__left">
+    <div class="stackedit__toc">
+      
+<ul>
+<li><a href="#correction-du-td-tp-1---structures-de-données">Correction du TD-TP 1 - Structures de données</a>
+<ul>
+<li><a href="#exercice-1--tables-de-hachage">Exercice 1 : Tables de hachage</a></li>
+<li><a href="#exercice-2--implémentation-dune-liste-chaînée-en-python">Exercice 2 : Implémentation d’une liste chaînée en Python</a>
+<ul>
+<li></li>
+</ul>
+</li>
+<li><a href="#exercice-3--implémentation-dune-pile-en-python-et-application-pratique">Exercice 3 : Implémentation d’une pile en Python et application pratique</a>
+<ul>
+<li></li>
+</ul>
+</li>
+<li><a href="#exercice-4--implémentation-dune-table-de-hachage-en-python-et-application-pratique">Exercice 4 : Implémentation d’une table de hachage en Python et application pratique</a>
+<ul>
+<li></li>
+<li><a href="#application--compter--afficher-les-occurrences-des-mots-dans-un-texte">Application : compter / afficher les occurrences des mots dans un texte</a></li>
+</ul>
+</li>
+<li><a href="#exercice-5--problème-de-josephus">Exercice 5 : Problème de Josephus</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+  </div>
+  <div class="stackedit__right">
+    <div class="stackedit__html">
+      <h1 id="correction-du-td-tp-1---structures-de-données">Correction du TD-TP 1 - Structures de données</h1>
+<h2 id="exercice-1--tables-de-hachage">Exercice 1 : Tables de hachage</h2>
+<p>L’énoncé précise que la table est de taille 11, et utilise la fonction de hachage <em>modulo</em>. Les indices de la table sont donc numérotés de 0 à 10, et pour savoir dans quel case de la table placer un nombre, il faut calculer son reste modulo 11. Par exemple, 31 % 11 = 9 car 31 = 2 x 11 <strong>+ 9</strong>.</p>
+<h3 id="par-chaînage">1. Par chaînage</h3>
+<p>Avec la méthode par chaînage, en cas de <em>collision</em>, c’est-à-dire si une case est occupée, on chaîne les éléments les uns à la suite des autres (avec une liste chaînée).</p>
+
+<table>
+<thead>
+<tr>
+<th align="center">index</th>
+<th align="left">valeurs</th>
+<th align="right"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">0</td>
+<td align="left">22</td>
+<td align="right"></td>
+</tr>
+<tr>
+<td align="center">1</td>
+<td align="left"></td>
+<td align="right"></td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="left">2</td>
+<td align="right"></td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="left">36</td>
+<td align="right"></td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="left">26</td>
+<td align="right">15</td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td align="left"></td>
+<td align="right"></td>
+</tr>
+<tr>
+<td align="center">6</td>
+<td align="left">50</td>
+<td align="right"></td>
+</tr>
+<tr>
+<td align="center">7</td>
+<td align="left"></td>
+<td align="right"></td>
+</tr>
+<tr>
+<td align="center">8</td>
+<td align="left"></td>
+<td align="right"></td>
+</tr>
+<tr>
+<td align="center">9</td>
+<td align="left">9</td>
+<td align="right">31</td>
+</tr>
+<tr>
+<td align="center">10</td>
+<td align="left">21</td>
+<td align="right"></td>
+</tr>
+</tbody>
+</table><h3 id="par-sondage-linéaire">2. Par sondage linéaire</h3>
+<p>Avec la méthode par sondage linéaire, en cas de collision on parcourt la table jusqu’à trouver une case libre (ce parcours se fait de manière circulaire) :</p>
+
+<table>
+<thead>
+<tr>
+<th align="center">index</th>
+<th align="center">valeurs</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td align="center">0</td>
+<td align="center">22</td>
+</tr>
+<tr>
+<td align="center">1</td>
+<td align="center">31</td>
+</tr>
+<tr>
+<td align="center">2</td>
+<td align="center">2</td>
+</tr>
+<tr>
+<td align="center">3</td>
+<td align="center">36</td>
+</tr>
+<tr>
+<td align="center">4</td>
+<td align="center">26</td>
+</tr>
+<tr>
+<td align="center">5</td>
+<td align="center">15</td>
+</tr>
+<tr>
+<td align="center">6</td>
+<td align="center">50</td>
+</tr>
+<tr>
+<td align="center">7</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">8</td>
+<td align="center"></td>
+</tr>
+<tr>
+<td align="center">9</td>
+<td align="center">9</td>
+</tr>
+<tr>
+<td align="center">10</td>
+<td align="center">21</td>
+</tr>
+</tbody>
+</table><p>💡 Le résultat dépend bien sûr toujours de l’ordre dans lequel on insère les éléments. Ici, on a pris les éléments dans l’ordre donné par l’énoncé.</p>
+<h2 id="exercice-2--implémentation-dune-liste-chaînée-en-python">Exercice 2 : Implémentation d’une liste chaînée en Python</h2>
+<p>💡 <strong>Commencez par lire la fiche "Rappels Python"</strong></p>
+<p>💡 Pour les exercices demandés en Python, les corrections qui sont données dans la suite du document sont <em>une</em> solution parmi beaucoup d’autres. Dans la mesure du possible, j’ai essayé de ne pas utiliser d’éléments de langage propres à Python, pour pouvoir plus facilement traduire le code dans un autre langage si besoin. Néanmoins, certaines syntaxes de Python sont relativement puissantes tout en étant très concises, et les utiliser permet d’améliorer la lisibilité du code tout en ne rendant pas plus difficile la traduction vers un autre langage.</p>
+<h4 id="classe-noeud">Classe <code>Noeud</code></h4>
+<p>Une liste chaînée est par définition une suite de <em><strong>nœuds</strong></em>, contenant une valeur et enchaînés les uns à la suite des autres. Dans la version la plus simple d’une liste chaînée, on distingue un des nœuds, qu’on appelle la <em><strong>tête</strong></em> de la liste, et chaque nœud pointe vers le suivant uniquement, sans possibilité de revenir en arrière. Il existe d’autres versions, comme la liste <em>doublement chaînée</em> qui autorise ce retour en arrière, ou la liste chaînée <em>circulaire</em> qui permet de boucler quand on a atteint le dernier nœud.</p>
+<p>On voit donc que le concept de <em>nœud</em> est au cœur de la définition de la liste chaînée, et on commence donc par écrire la <em>classe</em> <code>Noeud</code> :</p>
+<pre class=" language-python"><code class="prism  language-python"><span class="token keyword">class</span> <span class="token class-name">Noeud</span><span class="token punctuation">:</span>
+	<span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> data<span class="token punctuation">)</span><span class="token punctuation">:</span>
+		self<span class="token punctuation">.</span>data <span class="token operator">=</span> data
+		self<span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> <span class="token boolean">None</span>
+	
+	<span class="token keyword">def</span> <span class="token function">__repr__</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+		<span class="token keyword">return</span>  self<span class="token punctuation">.</span>data
+</code></pre>
+<p>💡 Chaque <code>Noeud</code> comporte donc une valeur (nommée <code>data</code>) et un pointeur sur le <code>Noeud</code> suivant de la liste (<code>next</code>).</p>
+<h4 id="classe-listechainee">Classe <code>ListeChainee</code></h4>
+<p>On peut à présent passer à l’implémentation de la liste chaînée proprement dite :</p>
+<pre class=" language-python"><code class="prism  language-python"><span class="token keyword">class</span> <span class="token class-name">ListeChainee</span><span class="token punctuation">:</span>    
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>tete <span class="token operator">=</span> <span class="token boolean">None</span>
+        self<span class="token punctuation">.</span>queue <span class="token operator">=</span> <span class="token boolean">None</span>
+        self<span class="token punctuation">.</span>taille <span class="token operator">=</span> <span class="token number">0</span>
+</code></pre>
+<p>💡 La définition “basique” d’une liste chaînée n’impose pas de conserver une référence sur le nœud de queue. Mais à l’aide de cette référence, l’ajout d’un nœud en fin de liste est beaucoup plus rapide, puisqu’il n’y a plus besoin de parcourir l’intégralité de la liste pour déterminer le dernier élément ! Les opérations de suppression sont cependant un peu plus délicates dans certains cas.</p>
+<p>💡 On fait ici le choix de toujours créer une liste <em>vide</em>. On pourrait autoriser l’utilisateur à donner une liste de valeurs pour initialiser la liste (<strong>laissé  en exercice</strong>).</p>
+<h4 id="affichage-de-la-liste-">Affichage de la liste :</h4>
+<p>Pour l’affichage de la liste, on utilise une fonction des listes Python bien utile : <code>join</code>. Cette fonction permet de relier (ou <em>joindre</em>) les différents éléments d’une liste à l’aide d’un séparateur :</p>
+<pre class=" language-python"><code class="prism  language-python"><span class="token operator">&gt;&gt;</span><span class="token operator">&gt;&gt;</span> l <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">]</span>
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;</span> <span class="token string">'-'</span><span class="token punctuation">.</span>join<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token builtin">str</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span> <span class="token keyword">for</span> i <span class="token keyword">in</span> l<span class="token punctuation">]</span><span class="token punctuation">)</span>
+<span class="token string">'1-2-3'</span>
+</code></pre>
+<p>💡 L’expression <code>[str(i) for i in l]</code> crée une liste constituée des éléments de la liste <code>l</code>, mais sous forme de chaîne de caractères (indispensable car <code>join</code> ne travaille que sur des chaines de caractères).</p>
+<p>Pour la représentation de notre liste chaînée, cela donne donc :</p>
+<pre class=" language-python"><code class="prism  language-python"><span class="token keyword">def</span> <span class="token function">__repr__</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    noeud_courant <span class="token operator">=</span> self<span class="token punctuation">.</span>tete
+    noeuds <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>		<span class="token comment"># tableau des valeurs des noeuds</span>
+    <span class="token keyword">while</span> noeud_courant <span class="token keyword">is</span> <span class="token operator">not</span> <span class="token boolean">None</span><span class="token punctuation">:</span>
+        nodes<span class="token punctuation">.</span>append<span class="token punctuation">(</span>noeud_courant<span class="token punctuation">.</span>data<span class="token punctuation">)</span>
+        noeud_courant <span class="token operator">=</span> noeud_courant<span class="token punctuation">.</span><span class="token builtin">next</span>
+    nodes<span class="token punctuation">.</span>append<span class="token punctuation">(</span><span class="token string">"None"</span><span class="token punctuation">)</span>
+    <span class="token keyword">return</span> <span class="token string">" -&gt; "</span><span class="token punctuation">.</span>join<span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token builtin">str</span><span class="token punctuation">(</span>n<span class="token punctuation">)</span> <span class="token keyword">for</span> n <span class="token keyword">in</span> nodes<span class="token punctuation">]</span><span class="token punctuation">)</span>
+</code></pre>
+<h4 id="test-de-liste-vide">Test de liste vide</h4>
+<p>C’est assez trivial, il suffit de tester si la taille est à 0 :</p>
+<pre class=" language-python"><code class="prism  language-python"><span class="token keyword">def</span> <span class="token function">estVide</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+	<span class="token keyword">return</span>  self<span class="token punctuation">.</span>taille <span class="token operator">==</span> <span class="token number">0</span>
+</code></pre>
+<p>💡 On aurait pu écrire :</p>
+<pre class=" language-python"><code class="prism  language-python"><span class="token keyword">def</span> <span class="token function">estVide</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+	<span class="token keyword">if</span> self<span class="token punctuation">.</span>taille <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">:</span>
+		<span class="token keyword">return</span> <span class="token boolean">True</span>
+	<span class="token keyword">else</span><span class="token punctuation">:</span>
+		<span class="token keyword">return</span> <span class="token boolean">False</span>
+</code></pre>
+<p>mais avouez que la première solution est quand même beaucoup plus élégante, non ?</p>
+<p>💡 Il faut bien comprendre qu’en théorie, le champ <code>taille</code> devrait être <strong>inaccessible</strong> à l’utilisateur. En effet, actuellement, rien n’empêche d’écrire par exemple :</p>
+<pre class=" language-python"><code class="prism  language-python"><span class="token operator">&gt;&gt;</span><span class="token operator">&gt;&gt;</span> l <span class="token operator">=</span> ListeChainee<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token operator">&gt;&gt;</span><span class="token operator">&gt;&gt;</span> l<span class="token punctuation">.</span>taille <span class="token operator">=</span> <span class="token number">30</span>
+</code></pre>
+<p>On a créé une incohérence : une liste chaînée vide, mais dont on indique qu’elle contient 30 éléments !<br>
+En toute rigueur, on aurait donc dû <em>masquer</em> l’attribut <code>taille</code> de la classe <code>ListeChainee</code> ; ceci se fait en préfixant le nom de l’attribut par deux symboles <em>underscore</em> : <code>__taille</code>. Cela justifie alors l’utilisation de la méthode <code>estVide</code>.</p>
+<h4 id="insertion-en-fin-de-liste-">Insertion en fin de liste :</h4>
+<p>Grâce au pointeur sur le nœud de queue, l’ajout en fin de liste est simplissime :</p>
+<ul>
+<li>on raccorde le dernier nœud actuel au nouveau,</li>
+<li>on déplace le pointeur <em>queue</em> sur le nouveau nœud.</li>
+</ul>
+<p>Toutefois, il ne faut pas oublier le cas particulier où la liste est vide.</p>
+<pre class=" language-python"><code class="prism  language-python"><span class="token keyword">def</span> <span class="token function">inserer_fin</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> valeur<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">if</span> self<span class="token punctuation">.</span>tete <span class="token keyword">is</span> <span class="token boolean">None</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>tete <span class="token operator">=</span> Noeud<span class="token punctuation">(</span>valeur<span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>queue <span class="token operator">=</span> self<span class="token punctuation">.</span>tete
+    <span class="token keyword">else</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>queue<span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> Noeud<span class="token punctuation">(</span>valeur<span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>queue <span class="token operator">=</span> self<span class="token punctuation">.</span>queue<span class="token punctuation">.</span><span class="token builtin">next</span>
+    
+    self<span class="token punctuation">.</span>taille <span class="token operator">+=</span> <span class="token number">1</span>
+</code></pre>
+<p>⚠️ Bien penser à augmenter la taille de la liste !</p>
+<h4 id="insertion-en-début-de-liste-">Insertion en début de liste :</h4>
+<p>Pour insérer une valeur en début de liste, c’est tout aussi simple : on crée un nouveau nœud qu’on fait pointer sur la tête de liste, et on met à jour la variable <code>tete</code> :</p>
+<pre class=" language-python"><code class="prism  language-python"><span class="token keyword">def</span> <span class="token function">inserer_debut</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> valeur<span class="token punctuation">)</span><span class="token punctuation">:</span>
+	<span class="token keyword">if</span>  self<span class="token punctuation">.</span>tete <span class="token keyword">is</span>  <span class="token boolean">None</span><span class="token punctuation">:</span>
+		self<span class="token punctuation">.</span>tete <span class="token operator">=</span> Noeud<span class="token punctuation">(</span>valeur<span class="token punctuation">)</span>
+		self<span class="token punctuation">.</span>queue <span class="token operator">=</span> self<span class="token punctuation">.</span>tete
+	<span class="token keyword">else</span><span class="token punctuation">:</span>
+		n <span class="token operator">=</span> Noeud<span class="token punctuation">(</span>valeur<span class="token punctuation">)</span>
+		n<span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> self<span class="token punctuation">.</span>tete
+		self<span class="token punctuation">.</span>tete <span class="token operator">=</span> n
+	
+	self<span class="token punctuation">.</span>taille <span class="token operator">+=</span> <span class="token number">1</span>
+</code></pre>
+<h4 id="insertion-en-k-ième-position-">Insertion en k-ième position :</h4>
+<p>Pour insérer une valeur à une position <code>k</code> donnée, on parcourt la liste jusqu’à tomber sur cette position.<br>
+💡 Pour les cas particuliers d’ajout en début ou fin de liste, on réutilise évidemment les fonctions déjà écrites !!!</p>
+<pre class=" language-python"><code class="prism  language-python"><span class="token keyword">def</span> <span class="token function">inserer</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> valeur<span class="token punctuation">,</span> k<span class="token operator">=</span><span class="token boolean">None</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+	<span class="token keyword">if</span>  self<span class="token punctuation">.</span>tete <span class="token keyword">is</span>  <span class="token boolean">None</span><span class="token punctuation">:</span>
+		self<span class="token punctuation">.</span>inserer_debut<span class="token punctuation">(</span>valeur<span class="token punctuation">)</span>
+	<span class="token keyword">elif</span> k <span class="token keyword">is</span>  <span class="token boolean">None</span><span class="token punctuation">:</span>
+		self<span class="token punctuation">.</span>inserer_fin<span class="token punctuation">(</span>valeur<span class="token punctuation">)</span>
+	<span class="token keyword">elif</span> k <span class="token operator">&lt;=</span> <span class="token number">0</span><span class="token punctuation">:</span>
+		self<span class="token punctuation">.</span>inserer_debut<span class="token punctuation">(</span>valeur<span class="token punctuation">)</span>
+	<span class="token keyword">elif</span> k <span class="token operator">&gt;=</span> self<span class="token punctuation">.</span>taille<span class="token punctuation">:</span>
+		self<span class="token punctuation">.</span>inserer_fin<span class="token punctuation">(</span>valeur<span class="token punctuation">)</span>
+	<span class="token keyword">else</span><span class="token punctuation">:</span>
+		noeud_courant<span class="token operator">=</span> self<span class="token punctuation">.</span>tete
+		i <span class="token operator">=</span> <span class="token number">0</span>
+		<span class="token keyword">while</span> i <span class="token operator">&lt;</span> k<span class="token number">-1</span>  <span class="token operator">and</span> noeud_courant<span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token keyword">is</span>  <span class="token operator">not</span>  <span class="token boolean">None</span><span class="token punctuation">:</span>
+			noeud_courant<span class="token operator">=</span> noeud_courant<span class="token punctuation">.</span><span class="token builtin">next</span>
+			i <span class="token operator">+=</span> <span class="token number">1</span>
+		
+		n <span class="token operator">=</span> Noeud<span class="token punctuation">(</span>valeur<span class="token punctuation">)</span>
+		n<span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> noeud_courant<span class="token punctuation">.</span><span class="token builtin">next</span>
+		noeud_courant<span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> n
+		self<span class="token punctuation">.</span>taille <span class="token operator">+=</span> <span class="token number">1</span>
+</code></pre>
+<p>💡 Ici, on a fait le choix (arbitraire) d’autoriser les valeurs négatives pour <code>k</code> (auquel cas on ajoute en début de liste) ou les valeurs supérieures à la taille (auquel cas on ajoute directement en fin de liste).</p>
+<p>⚠️ Il faut traiter le cas <code>k is None</code> <strong>avant</strong> le cas <code>k &lt;= 0</code>, car si l’utilisateur ne renseigne pas de valeur pour <code>k</code>, l’expression <code>k &lt;= 0</code> provoquerait une erreur.</p>
+<h4 id="recherche-de-valeur">Recherche de valeur</h4>
+<p>Pour rechercher une valeur dans la liste, il suffit de la parcourir. Si on trouve la valeur, on renvoie immédiatement la position du nœud ; sinon, on a atteint la fin de la liste, et on renvoie la valeur -1 pour indiquer que la recherche a échoué.</p>
+<pre class=" language-python"><code class="prism  language-python"><span class="token keyword">def</span> <span class="token function">rechercher</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> valeur<span class="token punctuation">)</span><span class="token punctuation">:</span>
+	noeud_courant<span class="token operator">=</span> self<span class="token punctuation">.</span>tete
+	pos <span class="token operator">=</span> <span class="token number">0</span>
+	<span class="token keyword">while</span> noeud_courant <span class="token keyword">is</span>  <span class="token operator">not</span>  <span class="token boolean">None</span><span class="token punctuation">:</span>
+		<span class="token keyword">if</span> noeud_courant<span class="token punctuation">.</span>data <span class="token operator">==</span> valeur<span class="token punctuation">:</span>
+			<span class="token keyword">return</span> pos
+		<span class="token keyword">else</span><span class="token punctuation">:</span>
+			noeud_courant<span class="token operator">=</span> noeud_courant<span class="token punctuation">.</span><span class="token builtin">next</span>
+			pos <span class="token operator">+=</span> <span class="token number">1</span>
+	
+	<span class="token keyword">return</span> <span class="token operator">-</span><span class="token number">1</span>
+</code></pre>
+<h4 id="suppression-du-k-ième-noeud">Suppression du k-ième noeud</h4>
+<p>La suppression du k-ième nœud consiste à parcourir la liste jusqu’à tomber sur le nœud <em>précédent</em>. En effet, on aura besoin de raccorder le nœud précédent au nœud suivant, mais notre implémentation d’un nœud ne nous permet pas de retrouver facilement le nœud précédent ; il faut donc s’arrêter dès qu’on tombe dessus :</p>
+<pre class=" language-python"><code class="prism  language-python"><span class="token comment"># Suppression du k-ième noeud (numérotés de 0 à taille - 1)</span>
+<span class="token comment"># Cette fonction retourne la valeur du noeud supprimé</span>
+<span class="token keyword">def</span> <span class="token function">supprimer</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> k<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    valeur <span class="token operator">=</span> <span class="token boolean">None</span>
+
+    <span class="token keyword">if</span> self<span class="token punctuation">.</span>tete <span class="token keyword">is</span> <span class="token boolean">None</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> <span class="token boolean">None</span>
+    
+    <span class="token keyword">if</span> k <span class="token operator">&lt;</span> <span class="token number">0</span> <span class="token operator">or</span> k <span class="token operator">&gt;=</span> self<span class="token punctuation">.</span>taille<span class="token punctuation">:</span>
+        <span class="token keyword">return</span> <span class="token boolean">None</span>
+
+    <span class="token keyword">if</span> k <span class="token operator">==</span> <span class="token number">0</span><span class="token punctuation">:</span>
+        valeur <span class="token operator">=</span> self<span class="token punctuation">.</span>tete<span class="token punctuation">.</span>data
+        self<span class="token punctuation">.</span>tete <span class="token operator">=</span> self<span class="token punctuation">.</span>tete<span class="token punctuation">.</span><span class="token builtin">next</span>
+        <span class="token keyword">if</span> self<span class="token punctuation">.</span>taille <span class="token operator">==</span> <span class="token number">1</span><span class="token punctuation">:</span>
+            self<span class="token punctuation">.</span>queue <span class="token operator">=</span> self<span class="token punctuation">.</span>tete
+    <span class="token keyword">else</span><span class="token punctuation">:</span>
+        pos <span class="token operator">=</span> <span class="token number">0</span>
+        noeud_courant <span class="token operator">=</span> self<span class="token punctuation">.</span>tete
+        <span class="token keyword">while</span> pos <span class="token operator">&lt;</span> k<span class="token number">-1</span> <span class="token operator">and</span> noeud_courant<span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token keyword">is</span> <span class="token operator">not</span> <span class="token boolean">None</span><span class="token punctuation">:</span>
+            pos <span class="token operator">+=</span> <span class="token number">1</span>
+            noeud_courant <span class="token operator">=</span> noeud_courant<span class="token punctuation">.</span><span class="token builtin">next</span>
+        valeur <span class="token operator">=</span> noeud_courant<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span>data
+        noeud_courant<span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> noeud_courant<span class="token punctuation">.</span><span class="token builtin">next</span><span class="token punctuation">.</span><span class="token builtin">next</span>
+        <span class="token keyword">if</span> k <span class="token operator">==</span> self<span class="token punctuation">.</span>taille <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">:</span>
+            self<span class="token punctuation">.</span>queue <span class="token operator">=</span> noeud_courant
+    
+    self<span class="token punctuation">.</span>taille <span class="token operator">-=</span> <span class="token number">1</span>
+    <span class="token keyword">return</span> valeur
+</code></pre>
+<p>⚠️ Attention à la place de l’instruction <code>self.taille -= 1</code> (avant-dernière ligne) ! Il faut bien qu’elle s’applique au cas général <strong>et</strong> en cas de suppression en tête de liste.</p>
+<p>💡 Pourquoi retourner la valeur du nœud supprimé ? Ceci nous sera utile quand on réutilisera la classe <code>ListeChainee</code> pour créer une <code>Pile</code> (voir plus bas).</p>
+<h4 id="suppression-dune-valeur-donnée">Suppression d’une valeur donnée</h4>
+<p>En combinant les deux méthodes précédentes, la suppression d’une valeur donnée dans la liste devient triviale !</p>
+<pre class=" language-python"><code class="prism  language-python"><span class="token keyword">def</span> <span class="token function">supprimerValeur</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> valeur<span class="token punctuation">)</span><span class="token punctuation">:</span>
+	k <span class="token operator">=</span> self<span class="token punctuation">.</span>rechercher<span class="token punctuation">(</span>valeur<span class="token punctuation">)</span>
+	<span class="token keyword">if</span> k <span class="token operator">!=</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">:</span>
+		<span class="token keyword">return</span> self<span class="token punctuation">.</span>supprimer<span class="token punctuation">(</span>k<span class="token punctuation">)</span>
+</code></pre>
+<p>⚠️ Cela suppose toutefois que si la valeur est présente <em>plusieurs</em> fois dans la liste, seule la <em>première</em> occurrence est supprimée. Mais il est très simple d’appliquer cette fonction de manière répétée jusqu’à ce que toutes les occurrences soient supprimées (<strong>laissé en exercice</strong>).</p>
+<p>💡 Ici aussi, on retourne la valeur du nœud supprimé. Ce choix est plus discutable dans ce cas, car on peut se demander pourquoi un utilisateur voudrait récupérer une valeur qu’il vient de fournir en paramètre… En fait, ça peut être utile dans le cas où la valeur retournée est <code>None</code> : dans ce cas-là, la valeur fournie était absente de la liste.</p>
+<h5 id="programme-de-test-">Programme de test :</h5>
+<pre class=" language-python"><code class="prism  language-python">l <span class="token operator">=</span> ListeChainee<span class="token punctuation">(</span><span class="token punctuation">)</span>
+l<span class="token punctuation">.</span>inserer_fin<span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">)</span>
+l<span class="token punctuation">.</span>inserer_fin<span class="token punctuation">(</span><span class="token number">9</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>l<span class="token punctuation">)</span>
+<span class="token comment"># 4 -&gt; 9 -&gt; None</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span>l<span class="token punctuation">.</span>rechercher<span class="token punctuation">(</span><span class="token number">9</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment"># 1		# 9 est en position 1 (la numérotation commence à 0)</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span>l<span class="token punctuation">.</span>rechercher<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment"># -1		# 3 est absent de la liste</span>
+
+l<span class="token punctuation">.</span>supprimer<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>l<span class="token punctuation">)</span>
+<span class="token comment"># 4 -&gt; None	# on supprime l'élément en position 1</span>
+l<span class="token punctuation">.</span>supprimer<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span>l<span class="token punctuation">)</span>
+<span class="token comment"># 4 -&gt; None	# il n'y a pas d'élément en position 1 à supprimer</span>
+
+<span class="token keyword">print</span><span class="token punctuation">(</span>l<span class="token punctuation">.</span>estVide<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment"># False		# la liste n'est pas vide</span>
+
+l<span class="token punctuation">.</span>supprimer<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>l<span class="token punctuation">)</span>
+<span class="token comment"># None		# la liste est désormais vide</span>
+
+l<span class="token punctuation">.</span>inserer<span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">)</span>
+l<span class="token punctuation">.</span>inserer<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span>
+l<span class="token punctuation">.</span>inserer<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>l<span class="token punctuation">)</span>
+<span class="token comment"># 1 -&gt; 4 -&gt; 2 -&gt; None</span>
+</code></pre>
+<h2 id="exercice-3--implémentation-dune-pile-en-python-et-application-pratique">Exercice 3 : Implémentation d’une pile en Python et application pratique</h2>
+<h4 id="une-première-version">Une première version</h4>
+<p>Une pile est un cas particulier de liste chaînée, où l’insertion et la suppression ne peuvent se faire qu’au niveau du premier nœud, appelé <em>sommet</em> et non plus <em>tête</em> (une pile étant plus souvent représentée verticalement). On n’a donc même plus besoin de gérer la queue.<br>
+Moyennant quelques modifications dans la méthode <code>__repr__</code> pour représenter la pile sous cette forme verticale, et quelques renommages (par exemple, <code>inserer_debut</code> devient <code>empiler</code> et <code>supprimer</code> devient <code>depiler</code>), il suffit de reprendre le code de la liste chaînée (qui est même plus simple dans le cas de la pile) :</p>
+<pre class=" language-python"><code class="prism  language-python"><span class="token keyword">class</span> <span class="token class-name">Noeud</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> data<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>data <span class="token operator">=</span> data
+        self<span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> <span class="token boolean">None</span>
+
+    <span class="token keyword">def</span> <span class="token function">__repr__</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> self<span class="token punctuation">.</span>data
+
+<span class="token keyword">class</span> <span class="token class-name">Pile</span><span class="token punctuation">:</span>    
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>sommet <span class="token operator">=</span> <span class="token boolean">None</span>
+        self<span class="token punctuation">.</span>taille <span class="token operator">=</span> <span class="token number">0</span>
+
+    <span class="token keyword">def</span> <span class="token function">__repr__</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">if</span> self<span class="token punctuation">.</span>sommet <span class="token keyword">is</span> <span class="token boolean">None</span><span class="token punctuation">:</span>
+            <span class="token keyword">return</span> <span class="token string">"|___|\n"</span>
+        
+        <span class="token keyword">else</span><span class="token punctuation">:</span>
+            s <span class="token operator">=</span> <span class="token string">""</span>
+            node <span class="token operator">=</span> self<span class="token punctuation">.</span>sommet
+            <span class="token keyword">while</span> node <span class="token keyword">is</span> <span class="token operator">not</span> <span class="token boolean">None</span><span class="token punctuation">:</span>
+                s <span class="token operator">+=</span> <span class="token string">"|_"</span> <span class="token operator">+</span> <span class="token builtin">str</span><span class="token punctuation">(</span>node<span class="token punctuation">.</span>data<span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">"_|\n"</span>
+                node <span class="token operator">=</span> node<span class="token punctuation">.</span><span class="token builtin">next</span>
+            <span class="token keyword">return</span> s
+    
+    <span class="token keyword">def</span> <span class="token function">empiler</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> valeur<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        s <span class="token operator">=</span> Noeud<span class="token punctuation">(</span>valeur<span class="token punctuation">)</span>
+        s<span class="token punctuation">.</span><span class="token builtin">next</span> <span class="token operator">=</span> self<span class="token punctuation">.</span>sommet
+        self<span class="token punctuation">.</span>sommet <span class="token operator">=</span> s
+                
+        self<span class="token punctuation">.</span>taille <span class="token operator">+=</span> <span class="token number">1</span>
+            
+    <span class="token keyword">def</span> <span class="token function">estVide</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> self<span class="token punctuation">.</span>taille <span class="token operator">==</span> <span class="token number">0</span>
+       
+	<span class="token comment"># renvoie la valeur au sommet de la pile</span>
+	<span class="token keyword">def</span> <span class="token function">sommet</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+		<span class="token keyword">return</span>  self<span class="token punctuation">.</span>sommet
+
+    <span class="token keyword">def</span> <span class="token function">depiler</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">if</span> self<span class="token punctuation">.</span>sommet <span class="token keyword">is</span> <span class="token boolean">None</span><span class="token punctuation">:</span>
+            <span class="token keyword">return</span>
+        self<span class="token punctuation">.</span>sommet <span class="token operator">=</span> self<span class="token punctuation">.</span>sommet<span class="token punctuation">.</span><span class="token builtin">next</span>
+        self<span class="token punctuation">.</span>taille <span class="token operator">-=</span> <span class="token number">1</span>
+</code></pre>
+<p>💡 La méthode <code>__repr__</code> suppose ici que chaque élément de la pile n’occupe qu’un seul caractère à l’affichage, sinon les différents éléments de la pile seront décalés à l’affichage. On pourrait d’abord rechercher combien de caractères demande le plus grand élément, pour adapter l’affichage de tous les éléments en conséquence (<strong>laissé en exercice</strong>).</p>
+<h5 id="programme-de-test">Programme de test</h5>
+<pre class=" language-python"><code class="prism  language-python">p <span class="token operator">=</span> Pile<span class="token punctuation">(</span><span class="token punctuation">)</span>
+p<span class="token punctuation">.</span>empiler<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>p<span class="token punctuation">)</span>
+p<span class="token punctuation">.</span>empiler<span class="token punctuation">(</span><span class="token number">4</span><span class="token punctuation">)</span>
+p<span class="token punctuation">.</span>empiler<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>p<span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>p<span class="token punctuation">.</span>estVide<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+p<span class="token punctuation">.</span>depiler<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>p<span class="token punctuation">)</span>
+p<span class="token punctuation">.</span>depiler<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>p<span class="token punctuation">)</span>
+p<span class="token punctuation">.</span>depiler<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>p<span class="token punctuation">)</span>
+p<span class="token punctuation">.</span>depiler<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>p<span class="token punctuation">)</span>
+<span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span>
+<span class="token operator">|</span>_3_<span class="token operator">|</span>
+
+<span class="token operator">|</span>_2_<span class="token operator">|</span>
+<span class="token operator">|</span>_4_<span class="token operator">|</span>
+<span class="token operator">|</span>_3_<span class="token operator">|</span>
+
+<span class="token boolean">False</span>
+
+<span class="token operator">|</span>_4_<span class="token operator">|</span>
+<span class="token operator">|</span>_3_<span class="token operator">|</span>
+
+<span class="token operator">|</span>_3_<span class="token operator">|</span>
+
+<span class="token operator">|</span>___<span class="token operator">|</span>
+
+<span class="token operator">|</span>___<span class="token operator">|</span>
+</code></pre>
+<h4 id="une-seconde-version">Une seconde version</h4>
+<p>Puisque la pile est un cas particulier de liste chaînée, pourquoi ne pas réutiliser le code de <code>ListeChainee</code> pour implémenter la classe <code>Pile</code> ? Autrement dit, on peut dire que la classe <code>Pile</code> <strong>hérite</strong> de la classe <code>ListeChainee</code>. Voici ce que ça donne en Python :</p>
+<pre class=" language-python"><code class="prism  language-python"><span class="token comment"># On commence par importer les classes issues du fichier ListeChainee</span>
+<span class="token keyword">from</span> ListeChainee <span class="token keyword">import</span> ListeChainee<span class="token punctuation">,</span> Noeud
+
+<span class="token comment"># Ici, on indique que la classe Pile hérite de ListeChainee</span>
+<span class="token keyword">class</span> <span class="token class-name">Pile</span><span class="token punctuation">(</span>ListeChainee<span class="token punctuation">)</span><span class="token punctuation">:</span>    
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token builtin">super</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>__init__<span class="token punctuation">(</span><span class="token punctuation">)</span>			<span class="token comment"># fait appel au constructeur de ListeChainee</span>
+
+	<span class="token comment"># renvoie la valeur au sommet de la pile</span>
+	<span class="token keyword">def</span> <span class="token function">sommet</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+		<span class="token keyword">return</span>  self<span class="token punctuation">.</span>tete
+
+	<span class="token comment"># Pour empiler et depiler, on fait simplement appel</span>
+	<span class="token comment"># aux méthodes existantes, héritées de ListeChainee</span>
+    <span class="token keyword">def</span> <span class="token function">empiler</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> valeur<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>inserer_debut<span class="token punctuation">(</span>valeur<span class="token punctuation">)</span>
+
+    <span class="token keyword">def</span> <span class="token function">depiler</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>supprimer<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span>
+
+	<span class="token comment"># Seule la méthode __repr__ est réécrite,</span>
+	<span class="token comment"># pour afficher la pile sous forme verticale</span>
+    <span class="token keyword">def</span> <span class="token function">__repr__</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">if</span> self<span class="token punctuation">.</span>tete <span class="token keyword">is</span> <span class="token boolean">None</span><span class="token punctuation">:</span>
+            <span class="token keyword">return</span> <span class="token string">"|___|\n"</span>        
+        <span class="token keyword">else</span><span class="token punctuation">:</span>
+            s <span class="token operator">=</span> <span class="token string">""</span>
+            node <span class="token operator">=</span> self<span class="token punctuation">.</span>tete
+            <span class="token keyword">while</span> node <span class="token keyword">is</span> <span class="token operator">not</span> <span class="token boolean">None</span><span class="token punctuation">:</span>
+                s <span class="token operator">+=</span> <span class="token string">"|_"</span> <span class="token operator">+</span> <span class="token builtin">str</span><span class="token punctuation">(</span>node<span class="token punctuation">.</span>data<span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token string">"_|\n"</span>
+                node <span class="token operator">=</span> node<span class="token punctuation">.</span><span class="token builtin">next</span>
+            <span class="token keyword">return</span> s
+</code></pre>
+<p>C’est quand même beaucoup plus simple, non ? 😃</p>
+<p>⚠️ Dans la méthode <code>sommet</code>, l’élément à renvoyer est bien <code>self.tete</code> et plus <code>self.sommet</code> comme dans la première version, car on hérite de la classe <code>ListeChainee</code>.</p>
+<h4 id="application--parseur-ou-analyseur-syntaxique">Application : <em>parseur</em> ou analyseur syntaxique</h4>
+<p>On dit qu’une expression ou un code informatique est <em>bien parenthésé(e)</em> si chaque caractère <em>ouvrant</em> du type <code>(</code>, <code>{</code>, <code>&lt;</code>, <code>[</code> va de pair avec son caractère <em>fermant</em> correspondant ; autrement dit, à chaque fois qu’on lit un caractère fermant, le dernier caractère ouvrant lu doit être son correspondant, et l’expression obtenue en supprimant ces deux caractères est bien parenthésée.</p>
+<p><em>Exemples :</em></p>
+<ul>
+<li><code>[{}&lt;&gt;([])]</code> est correctement parenthésée</li>
+<li><code>[)(]</code> est mal parenthésée</li>
+</ul>
+<p>L’exercice consistait donc à écrire un programme validant ou détectant un mauvais parenthésage dans un code informatique. Pour cela, il suffit d’utiliser une pile :</p>
+<ul>
+<li>à chaque fois qu’on lit un caractère ouvrant, on l’empile</li>
+<li>à chaque fois qu’on lit un caractère fermant, on retire l’élément au sommet de la pile (c’est donc un caractère ouvrant) et on vérifie que les deux vont de pair</li>
+<li>si on essaie de retirer un élément de la pile alors qu’elle est vide, l’expression est mal parenthésée (il y a un caractère de fermeture inattendu)</li>
+<li>si à la fin de l’analyse, la pile n’est vide, l’expression est mal parenthésée (il y a au moins un caractère d’ouverture en trop)</li>
+<li>si à la fin de l’analyse, la pile est vide, l’expression est correctement parenthésée.</li>
+</ul>
+<h5 id="une-première-version-">Une première version :</h5>
+<pre class=" language-python"><code class="prism  language-python"><span class="token keyword">from</span> Pile <span class="token keyword">import</span> Pile
+
+<span class="token keyword">def</span> <span class="token function">parse</span><span class="token punctuation">(</span><span class="token builtin">input</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    pile <span class="token operator">=</span> Pile<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    d <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token string">'{'</span><span class="token punctuation">:</span><span class="token string">'}'</span><span class="token punctuation">,</span> <span class="token string">'&lt;'</span><span class="token punctuation">:</span><span class="token string">'&gt;'</span><span class="token punctuation">,</span> <span class="token string">'('</span><span class="token punctuation">:</span><span class="token string">')'</span><span class="token punctuation">,</span> <span class="token string">'['</span><span class="token punctuation">:</span><span class="token string">']'</span><span class="token punctuation">}</span>
+
+    <span class="token keyword">for</span> c <span class="token keyword">in</span> <span class="token builtin">input</span><span class="token punctuation">:</span>
+        <span class="token keyword">if</span> c <span class="token operator">==</span> <span class="token string">'{'</span> <span class="token operator">or</span> c<span class="token operator">==</span> <span class="token string">'&lt;'</span> <span class="token operator">or</span> c <span class="token operator">==</span> <span class="token string">'('</span> <span class="token operator">or</span> c <span class="token operator">==</span> <span class="token string">'['</span><span class="token punctuation">:</span>
+            pile<span class="token punctuation">.</span>empiler<span class="token punctuation">(</span>c<span class="token punctuation">)</span>
+        <span class="token keyword">else</span><span class="token punctuation">:</span>
+            sommet <span class="token operator">=</span> pile<span class="token punctuation">.</span>depiler<span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token keyword">if</span> sommet <span class="token keyword">is</span> <span class="token boolean">None</span><span class="token punctuation">:</span>
+                <span class="token keyword">print</span><span class="token punctuation">(</span>f<span class="token string">"Erreur ! Caractère lu : {c} sans caractère ouvrant correspondant"</span><span class="token punctuation">)</span>
+                <span class="token keyword">return</span>
+            <span class="token keyword">elif</span> c <span class="token operator">!=</span> d<span class="token punctuation">[</span>sommet<span class="token punctuation">]</span><span class="token punctuation">:</span>
+                <span class="token keyword">print</span><span class="token punctuation">(</span>f<span class="token string">"Erreur ! Caractère attendu : {d[sommet]}, caractère lu : {c}"</span><span class="token punctuation">)</span>
+                <span class="token keyword">return</span>
+        
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"OK, chaîne valide"</span><span class="token punctuation">)</span>
+</code></pre>
+<p>💡 La méthode <code>parse</code> prend en paramètre une chaîne de caractères nommée <code>input</code>. Pour retrouver facilement le caractère <em>fermant</em> associé à un caractère <em>ouvrant</em>, on utilise un <em>dictionnaire</em> Python (sorte de table de hachage).</p>
+<p>⚠️ Si vous écrivez un <em>programme</em> de validation de parenthésage, alors il est préférable que celui-ci <em>affiche</em> un message explicite de l’erreur rencontré. Si en revanche vous écrivez une <em>fonction</em> destinée à être utilisée par un utilisateur dans son propre programme, dans ce cas, il faut <em><strong>retourner</strong></em> une valeur (en l’occurrence ici <code>True</code> ou <code>False</code> selon que l’expression est bien parenthésée ou non), et c’est à l’utilisateur de choisir ce qu’il souhaite faire de cette valeur.</p>
+<h5 id="programme-de-test-1">Programme de test</h5>
+<pre class=" language-python"><code class="prism  language-python">parse<span class="token punctuation">(</span><span class="token string">"{[&lt;()&gt;]}"</span><span class="token punctuation">)</span>
+parse<span class="token punctuation">(</span><span class="token string">"{[&lt;)(&gt;]}"</span><span class="token punctuation">)</span>
+parse<span class="token punctuation">(</span><span class="token string">"]"</span><span class="token punctuation">)</span>
+<span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span>
+OK<span class="token punctuation">,</span> chaîne valide
+Erreur ! Caractère attendu <span class="token punctuation">:</span> <span class="token operator">&gt;</span><span class="token punctuation">,</span> caractère lu <span class="token punctuation">:</span> <span class="token punctuation">)</span>
+Erreur ! Caractère lu <span class="token punctuation">:</span> <span class="token punctuation">]</span> sans caractère ouvrant correspondant
+</code></pre>
+<h5 id="une-deuxième-version-">Une deuxième version :</h5>
+<p>Le programme précédent a un inconvénient : il ne fonctionne que si la chaîne de caractères en entrée ne contient que les huit caractères analysés. Pourtant, la chaîne <code>((1 + 2) x (3 + 4))</code> est tout aussi valide. On modifie donc légèrement le code pour autoriser les autres caractères :</p>
+<pre class=" language-python"><code class="prism  language-python"><span class="token keyword">def</span> <span class="token function">parse</span><span class="token punctuation">(</span><span class="token builtin">input</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    pile <span class="token operator">=</span> Pile<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    d <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token string">'{'</span><span class="token punctuation">:</span><span class="token string">'}'</span><span class="token punctuation">,</span> <span class="token string">'&lt;'</span><span class="token punctuation">:</span><span class="token string">'&gt;'</span><span class="token punctuation">,</span> <span class="token string">'('</span><span class="token punctuation">:</span><span class="token string">')'</span><span class="token punctuation">,</span> <span class="token string">'['</span><span class="token punctuation">:</span><span class="token string">']'</span><span class="token punctuation">}</span>
+
+    <span class="token keyword">for</span> c <span class="token keyword">in</span> <span class="token builtin">input</span><span class="token punctuation">:</span>
+        <span class="token keyword">if</span> c <span class="token operator">==</span> <span class="token string">'{'</span> <span class="token operator">or</span> c<span class="token operator">==</span> <span class="token string">'&lt;'</span> <span class="token operator">or</span> c <span class="token operator">==</span> <span class="token string">'('</span> <span class="token operator">or</span> c <span class="token operator">==</span> <span class="token string">'['</span><span class="token punctuation">:</span>
+            pile<span class="token punctuation">.</span>empiler<span class="token punctuation">(</span>c<span class="token punctuation">)</span>
+        <span class="token keyword">elif</span> c <span class="token operator">==</span> <span class="token string">'}'</span> <span class="token operator">or</span> c<span class="token operator">==</span> <span class="token string">'&gt;'</span> <span class="token operator">or</span> c <span class="token operator">==</span> <span class="token string">')'</span> <span class="token operator">or</span> c <span class="token operator">==</span> <span class="token string">']'</span><span class="token punctuation">:</span>
+            sommet <span class="token operator">=</span> pile<span class="token punctuation">.</span>depiler<span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token keyword">if</span> sommet <span class="token keyword">is</span> <span class="token boolean">None</span><span class="token punctuation">:</span>
+                <span class="token keyword">print</span><span class="token punctuation">(</span>f<span class="token string">"Erreur ! Caractère lu : {c} sans caractère ouvrant correspondant"</span><span class="token punctuation">)</span>
+                <span class="token keyword">return</span>
+            <span class="token keyword">elif</span> c <span class="token operator">!=</span> d<span class="token punctuation">[</span>sommet<span class="token punctuation">]</span><span class="token punctuation">:</span>
+                <span class="token keyword">print</span><span class="token punctuation">(</span>f<span class="token string">"Erreur ! Caractère attendu : {d[sommet]}, caractère lu : {c}"</span><span class="token punctuation">)</span>
+                <span class="token keyword">return</span>
+        
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"OK, chaîne valide"</span><span class="token punctuation">)</span>
+</code></pre>
+<p>Cependant, ce code a encore un inconvénient : on récrit explicitement tous les caractères ouvrants et fermants (dans le <code>if</code> et le <code>elif</code>) alors qu’on les a déjà écrits dans le dictionnaire. C’est à la fois une perte de temps et une source d’erreur. Il est préférable d’utiliser les fonctions Python <code>keys</code> et <code>values</code> associées à un dictionnaire :</p>
+<pre class=" language-python"><code class="prism  language-python"><span class="token keyword">def</span> <span class="token function">parse</span><span class="token punctuation">(</span><span class="token builtin">input</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    pile <span class="token operator">=</span> Pile<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    d <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token string">'{'</span><span class="token punctuation">:</span><span class="token string">'}'</span><span class="token punctuation">,</span> <span class="token string">'&lt;'</span><span class="token punctuation">:</span><span class="token string">'&gt;'</span><span class="token punctuation">,</span> <span class="token string">'('</span><span class="token punctuation">:</span><span class="token string">')'</span><span class="token punctuation">,</span> <span class="token string">'['</span><span class="token punctuation">:</span><span class="token string">']'</span><span class="token punctuation">}</span>
+
+    <span class="token keyword">for</span> c <span class="token keyword">in</span> <span class="token builtin">input</span><span class="token punctuation">:</span>
+        <span class="token keyword">if</span> c <span class="token keyword">in</span> d<span class="token punctuation">.</span>keys<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+            pile<span class="token punctuation">.</span>empiler<span class="token punctuation">(</span>c<span class="token punctuation">)</span>
+        <span class="token keyword">elif</span> c <span class="token keyword">in</span> d<span class="token punctuation">.</span>values<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+            sommet <span class="token operator">=</span> pile<span class="token punctuation">.</span>depiler<span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token keyword">if</span> sommet <span class="token keyword">is</span> <span class="token boolean">None</span><span class="token punctuation">:</span>
+                <span class="token keyword">print</span><span class="token punctuation">(</span>f<span class="token string">"Erreur ! Caractère lu : {c} sans caractère ouvrant correspondant"</span><span class="token punctuation">)</span>
+                <span class="token keyword">return</span>
+            <span class="token keyword">elif</span> c <span class="token operator">!=</span> d<span class="token punctuation">[</span>sommet<span class="token punctuation">]</span><span class="token punctuation">:</span>
+                <span class="token keyword">print</span><span class="token punctuation">(</span>f<span class="token string">"Erreur ! Caractère attendu : {d[sommet]}, caractère lu : {c}"</span><span class="token punctuation">)</span>
+                <span class="token keyword">return</span>
+        
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"OK, chaîne valide"</span><span class="token punctuation">)</span>
+</code></pre>
+<h5 id="une-troisième-version-">Une troisième version :</h5>
+<p>Cette troisième version permet d’analyser un texte complet, réparti sur plusieurs lignes. Pour repérer un saut de ligne, on recherche le caractère spécial <code>\n</code> (qui signifie <code>new line</code>). En incrémentant à chaque tour de boucle une variable <code>linenumber</code>, on peut afficher le numéro de ligne où se situe une éventuelle erreur :</p>
+<pre class=" language-python"><code class="prism  language-python"><span class="token keyword">def</span> <span class="token function">parse3</span><span class="token punctuation">(</span><span class="token builtin">input</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    pile <span class="token operator">=</span> Pile<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    d <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token string">'{'</span><span class="token punctuation">:</span><span class="token string">'}'</span><span class="token punctuation">,</span> <span class="token string">'&lt;'</span><span class="token punctuation">:</span><span class="token string">'&gt;'</span><span class="token punctuation">,</span> <span class="token string">'('</span><span class="token punctuation">:</span><span class="token string">')'</span><span class="token punctuation">,</span> <span class="token string">'['</span><span class="token punctuation">:</span><span class="token string">']'</span><span class="token punctuation">}</span>
+    linenumber <span class="token operator">=</span> <span class="token number">1</span>
+
+    <span class="token keyword">for</span> c <span class="token keyword">in</span> <span class="token builtin">input</span><span class="token punctuation">:</span>
+        <span class="token keyword">if</span> c <span class="token keyword">in</span> d<span class="token punctuation">.</span>keys<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+            pile<span class="token punctuation">.</span>empiler<span class="token punctuation">(</span>c<span class="token punctuation">)</span>
+        <span class="token keyword">elif</span> c <span class="token keyword">in</span> d<span class="token punctuation">.</span>values<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+            sommet <span class="token operator">=</span> pile<span class="token punctuation">.</span>depiler<span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token keyword">if</span> sommet <span class="token keyword">is</span> <span class="token boolean">None</span><span class="token punctuation">:</span>
+                <span class="token keyword">print</span><span class="token punctuation">(</span>f<span class="token string">"Caractère fermant {c} lu à la ligne {str(linenumber)} sans caractère ouvrant correspondant"</span><span class="token punctuation">)</span>
+                <span class="token keyword">return</span>
+            <span class="token keyword">elif</span> c <span class="token operator">!=</span> d<span class="token punctuation">[</span>sommet<span class="token punctuation">]</span><span class="token punctuation">:</span>
+                <span class="token keyword">print</span><span class="token punctuation">(</span>f<span class="token string">"Erreur ! Caractère attendu : {d[sommet]}, caractère lu : {c} à la ligne {str(linenumber)}"</span><span class="token punctuation">)</span>
+                <span class="token keyword">return</span>
+        <span class="token keyword">elif</span> c <span class="token operator">==</span> <span class="token string">'\n'</span><span class="token punctuation">:</span>
+            linenumber <span class="token operator">+=</span> <span class="token number">1</span>
+
+    <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"OK, fichier valide"</span><span class="token punctuation">)</span>
+</code></pre>
+<p>💡 Vous pouvez tester cette fonction sur les fichiers HTML nommés <code>exemple_correct.html</code> et <code>exemple_incorrect.html</code> fournis :</p>
+<pre class=" language-python"><code class="prism  language-python">f <span class="token operator">=</span> <span class="token builtin">open</span><span class="token punctuation">(</span><span class="token string">"exemple_incorrect.html"</span><span class="token punctuation">,</span> <span class="token string">'r'</span><span class="token punctuation">)</span>
+parse3<span class="token punctuation">(</span>f<span class="token punctuation">.</span>read<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+f<span class="token punctuation">.</span>close<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token operator">=</span><span class="token operator">&gt;</span> Caractère fermant <span class="token operator">&gt;</span> lu à la ligne <span class="token number">15</span> sans caractère ouvrant correspondant
+</code></pre>
+<h2 id="exercice-4--implémentation-dune-table-de-hachage-en-python-et-application-pratique">Exercice 4 : Implémentation d’une table de hachage en Python et application pratique</h2>
+<h4 id="une-première-version-1">Une première version</h4>
+<p>La première version est une table de hachage simple, utilisant la fonction <em>modulo</em> comme dans l’exercice précédent, et résolvant les collisions par chaînage. La table se résume donc à une liste (au sens Python) d’objets de type <code>ListeChainee</code>.</p>
+<p>Le calcul de la fonction de hachage se fait dans la méthode <code>hash</code>. <strong>Attention</strong>, en Python, tout objet dispose <strong>déjà</strong> d’une méthode <code>hash</code>. Pour utiliser cette de <em>notre</em> classe, il faut bien penser à écrire <code>self.hash</code>.</p>
+<pre class=" language-python"><code class="prism  language-python"><span class="token keyword">from</span> ListeChainee <span class="token keyword">import</span> ListeChainee
+
+<span class="token keyword">class</span> <span class="token class-name">TableHachage</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> taille<span class="token operator">=</span><span class="token number">30</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>table <span class="token operator">=</span> <span class="token punctuation">[</span>ListeChainee<span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span>taille<span class="token punctuation">)</span><span class="token punctuation">]</span> <span class="token comment"># et pas [ListeChainee()] * taille (sinon même objet)</span>
+    
+    <span class="token keyword">def</span> <span class="token function">hash</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> valeur<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> valeur <span class="token operator">%</span> <span class="token builtin">len</span><span class="token punctuation">(</span>self<span class="token punctuation">.</span>table<span class="token punctuation">)</span>
+
+    <span class="token keyword">def</span> <span class="token function">ajouter</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> valeur<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        pos <span class="token operator">=</span> self<span class="token punctuation">.</span><span class="token builtin">hash</span><span class="token punctuation">(</span>valeur<span class="token punctuation">)</span>          <span class="token comment"># bien penser à self !</span>
+        self<span class="token punctuation">.</span>table<span class="token punctuation">[</span>pos<span class="token punctuation">]</span><span class="token punctuation">.</span>inserer<span class="token punctuation">(</span>valeur<span class="token punctuation">)</span>
+    
+    <span class="token keyword">def</span> <span class="token function">supprimer</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> valeur<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        pos <span class="token operator">=</span> self<span class="token punctuation">.</span><span class="token builtin">hash</span><span class="token punctuation">(</span>valeur<span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>table<span class="token punctuation">[</span>pos<span class="token punctuation">]</span><span class="token punctuation">.</span>supprimerValeur<span class="token punctuation">(</span>valeur<span class="token punctuation">)</span>
+
+    <span class="token keyword">def</span> <span class="token function">__repr__</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> <span class="token builtin">repr</span><span class="token punctuation">(</span>self<span class="token punctuation">.</span>table<span class="token punctuation">)</span>
+</code></pre>
+<p>💡 Dans cette version, on ne fait pas de distinction entre <em>clé</em> et <em>valeur</em> (on suppose que ce sont les mêmes). Or une table de hachage doit permettre de retrouver une valeur à partir d’une clé. C’est ce qu’on va mettre en place dans une deuxième version.</p>
+<h5 id="programme-de-test-2">Programme de test</h5>
+<pre class=" language-python"><code class="prism  language-python">th <span class="token operator">=</span> TableHachage<span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span>
+th<span class="token punctuation">.</span>ajouter<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">)</span>
+th<span class="token punctuation">.</span>ajouter<span class="token punctuation">(</span><span class="token number">9</span><span class="token punctuation">)</span>
+th<span class="token punctuation">.</span>ajouter<span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span>
+th<span class="token punctuation">.</span>ajouter<span class="token punctuation">(</span><span class="token number">12</span><span class="token punctuation">)</span>
+th<span class="token punctuation">.</span>ajouter<span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>th<span class="token punctuation">)</span>
+<span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span>
+<span class="token punctuation">[</span><span class="token number">10</span> <span class="token operator">-</span><span class="token operator">&gt;</span> <span class="token number">5</span> <span class="token operator">-</span><span class="token operator">&gt;</span> <span class="token boolean">None</span><span class="token punctuation">,</span> <span class="token boolean">None</span><span class="token punctuation">,</span> <span class="token number">12</span> <span class="token operator">-</span><span class="token operator">&gt;</span> <span class="token boolean">None</span><span class="token punctuation">,</span> <span class="token number">3</span> <span class="token operator">-</span><span class="token operator">&gt;</span> <span class="token boolean">None</span><span class="token punctuation">,</span> <span class="token number">9</span> <span class="token operator">-</span><span class="token operator">&gt;</span> <span class="token boolean">None</span><span class="token punctuation">]</span>
+</code></pre>
+<h4 id="une-deuxième-version">Une deuxième version</h4>
+<p>La deuxième version résout les collisions par sondage linéaire. On n’utilise donc plus de liste chaînée ici. A la place, chaque élément présent dans la table est un objet du type <code>TableElementV2</code> (une simple paire <code>clé/valeur</code>).</p>
+<p>De plus, on implémente un mécanisme de table extensible : dès que la table atteint 90% de sa capacité, on la redimensionne en doublant sa capacité. Ceci implique de devoir réinsérer tous les éléments dans la nouvelle table, à partir du nouveau résultat de la fonction de hachage.</p>
+<p>💡 En effet, si on a une table de taille 4, et qu’on insère des éléments en utilisant la fonction modulo, la valeur 5 sera placée en position 1 (car 5 % 4 = 1). Mais dans une table de taille 8, la valeur 5 doit être placée en position 5. Si on se contentait de recopier les éléments dans leur emplacement actuel, et de rajouter des cases vides à la fin de la table, la fonction de hachage donnerait souvent un résultat ne correspondant pas à l’emplacement de la valeur recherchée. Pour toutes les valeurs, il faudrait alors procéder à une recherche linéaire : on perdrait alors tout l’intérêt d’une table de hachage !!!</p>
+<p>💡 La méthode <code>hash</code> est légèrement modifiée : avant d’appliquer le modulo, elle appelle la fonction Python existante <code>hash</code>, qui renvoie un nombre. Ceci nous permet d’insérer dans notre table de hachage n’importe quel type de données (des nombres, des chaînes de caractères, des listes, des objets…) de manière générique. Ceci nous sera utile pour l’exercice d’application un peu plus bas.</p>
+<pre class=" language-python"><code class="prism  language-python"><span class="token keyword">class</span> <span class="token class-name">TableElementV2</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> cle<span class="token punctuation">,</span> valeur<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>cle <span class="token operator">=</span> cle
+        self<span class="token punctuation">.</span>valeur <span class="token operator">=</span> valeur
+    
+    <span class="token keyword">def</span> <span class="token function">__repr__</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> f<span class="token string">"{{{self.cle} : {self.valeur}}}"</span>
+
+<span class="token keyword">class</span> <span class="token class-name">TableHachageV2</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> capacite<span class="token operator">=</span><span class="token number">30</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>table <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token boolean">None</span><span class="token punctuation">]</span> <span class="token operator">*</span> capacite
+        self<span class="token punctuation">.</span>taille <span class="token operator">=</span> <span class="token number">0</span>
+    
+    <span class="token keyword">def</span> <span class="token function">hash</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> cle<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> <span class="token builtin">hash</span><span class="token punctuation">(</span>cle<span class="token punctuation">)</span> <span class="token operator">%</span> <span class="token builtin">len</span><span class="token punctuation">(</span>self<span class="token punctuation">.</span>table<span class="token punctuation">)</span>
+    
+    <span class="token comment"># Renvoie True et la position de la clé si elle est présente dans la table (et False et -1 sinon)</span>
+    <span class="token keyword">def</span> <span class="token function">exists</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> c<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token comment"># On essaie un direct direct à la clé, à partir de sa valeur de hachage</span>
+        pos <span class="token operator">=</span> self<span class="token punctuation">.</span><span class="token builtin">hash</span><span class="token punctuation">(</span>c<span class="token punctuation">)</span>
+        <span class="token keyword">if</span> self<span class="token punctuation">.</span>table<span class="token punctuation">[</span>pos<span class="token punctuation">]</span> <span class="token keyword">is</span> <span class="token operator">not</span> <span class="token boolean">None</span> <span class="token operator">and</span> self<span class="token punctuation">.</span>table<span class="token punctuation">[</span>pos<span class="token punctuation">]</span><span class="token punctuation">.</span>cle <span class="token operator">==</span> c<span class="token punctuation">:</span>
+            <span class="token keyword">return</span> <span class="token boolean">True</span><span class="token punctuation">,</span> pos
+
+        <span class="token comment"># Sinon, on effectue un sondage linéaire à partir de la case suivante</span>
+        <span class="token keyword">for</span> pos <span class="token keyword">in</span> <span class="token punctuation">[</span><span class="token punctuation">(</span>i <span class="token operator">+</span> <span class="token number">1</span> <span class="token operator">+</span> self<span class="token punctuation">.</span><span class="token builtin">hash</span><span class="token punctuation">(</span>c<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">%</span> <span class="token builtin">len</span><span class="token punctuation">(</span>self<span class="token punctuation">.</span>table<span class="token punctuation">)</span> <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>self<span class="token punctuation">.</span>table<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">:</span>
+            <span class="token keyword">if</span> self<span class="token punctuation">.</span>table<span class="token punctuation">[</span>pos<span class="token punctuation">]</span> <span class="token keyword">is</span> <span class="token operator">not</span> <span class="token boolean">None</span> <span class="token operator">and</span> self<span class="token punctuation">.</span>table<span class="token punctuation">[</span>pos<span class="token punctuation">]</span><span class="token punctuation">.</span>cle <span class="token operator">==</span> c<span class="token punctuation">:</span>
+                <span class="token keyword">return</span> <span class="token boolean">True</span><span class="token punctuation">,</span> pos
+        
+        <span class="token keyword">return</span> <span class="token boolean">False</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1</span>
+
+    <span class="token keyword">def</span> <span class="token function">ajouter</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> c<span class="token punctuation">,</span> v<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        estPresent<span class="token punctuation">,</span> pos <span class="token operator">=</span> self<span class="token punctuation">.</span>exists<span class="token punctuation">(</span>c<span class="token punctuation">)</span>
+
+        <span class="token keyword">if</span> estPresent<span class="token punctuation">:</span>                          <span class="token comment"># si la clé est déjà présente, on change sa valeur</span>
+            self<span class="token punctuation">.</span>table<span class="token punctuation">[</span>pos<span class="token punctuation">]</span><span class="token punctuation">.</span>valeur <span class="token operator">=</span> v
+        <span class="token keyword">else</span><span class="token punctuation">:</span>                                   <span class="token comment"># sinon, sondage linéaire</span>
+            <span class="token keyword">for</span> k <span class="token keyword">in</span> <span class="token punctuation">[</span><span class="token punctuation">(</span>i <span class="token operator">+</span> <span class="token number">1</span> <span class="token operator">+</span> self<span class="token punctuation">.</span><span class="token builtin">hash</span><span class="token punctuation">(</span>c<span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token operator">%</span> <span class="token builtin">len</span><span class="token punctuation">(</span>self<span class="token punctuation">.</span>table<span class="token punctuation">)</span> <span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>self<span class="token punctuation">.</span>table<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">:</span>
+                <span class="token keyword">if</span> self<span class="token punctuation">.</span>table<span class="token punctuation">[</span>k<span class="token punctuation">]</span> <span class="token keyword">is</span> <span class="token boolean">None</span><span class="token punctuation">:</span>
+                    self<span class="token punctuation">.</span>table<span class="token punctuation">[</span>k<span class="token punctuation">]</span> <span class="token operator">=</span> TableElementV3<span class="token punctuation">(</span>c<span class="token punctuation">,</span> v<span class="token punctuation">)</span>
+                    <span class="token keyword">break</span>
+        
+            self<span class="token punctuation">.</span>taille <span class="token operator">+=</span> <span class="token number">1</span>
+            <span class="token keyword">if</span> self<span class="token punctuation">.</span>taille <span class="token operator">&gt;=</span> <span class="token number">0.9</span> <span class="token operator">*</span> <span class="token builtin">len</span><span class="token punctuation">(</span>self<span class="token punctuation">.</span>table<span class="token punctuation">)</span><span class="token punctuation">:</span>
+                self<span class="token punctuation">.</span>redimensionner<span class="token punctuation">(</span><span class="token punctuation">)</span>
+	
+	<span class="token comment"># Renvoie la valeur associée à une clé, si elle est présente dans la table</span>
+    <span class="token keyword">def</span> <span class="token function">valeur</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> cle<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        estPresent<span class="token punctuation">,</span> pos <span class="token operator">=</span> self<span class="token punctuation">.</span>exists<span class="token punctuation">(</span>cle<span class="token punctuation">)</span>
+        <span class="token keyword">if</span>  estPresent<span class="token punctuation">:</span>
+            <span class="token keyword">return</span> self<span class="token punctuation">.</span>table<span class="token punctuation">[</span>pos<span class="token punctuation">]</span><span class="token punctuation">.</span>valeur
+        <span class="token keyword">else</span><span class="token punctuation">:</span>
+            <span class="token keyword">return</span> <span class="token boolean">None</span>
+
+    <span class="token keyword">def</span> <span class="token function">supprimer</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> cle<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>table<span class="token punctuation">[</span>self<span class="token punctuation">.</span><span class="token builtin">hash</span><span class="token punctuation">(</span>cle<span class="token punctuation">)</span><span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token boolean">None</span>
+        self<span class="token punctuation">.</span>taille <span class="token operator">-=</span> <span class="token number">1</span>
+
+    <span class="token keyword">def</span> <span class="token function">redimensionner</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        newTable <span class="token operator">=</span> TableHachageV2<span class="token punctuation">(</span><span class="token number">2</span> <span class="token operator">*</span> <span class="token builtin">len</span><span class="token punctuation">(</span>self<span class="token punctuation">.</span>table<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token keyword">for</span> e <span class="token keyword">in</span> self<span class="token punctuation">.</span>table<span class="token punctuation">:</span>
+             <span class="token keyword">if</span> e <span class="token keyword">is</span> <span class="token operator">not</span> <span class="token boolean">None</span><span class="token punctuation">:</span>
+                newTable<span class="token punctuation">.</span>ajouter<span class="token punctuation">(</span>e<span class="token punctuation">.</span>cle<span class="token punctuation">,</span> e<span class="token punctuation">.</span>valeur<span class="token punctuation">)</span>
+        self<span class="token punctuation">.</span>table <span class="token operator">=</span> newTable<span class="token punctuation">.</span>table
+        self<span class="token punctuation">.</span>taille <span class="token operator">=</span> newTable<span class="token punctuation">.</span>taille
+
+    <span class="token keyword">def</span> <span class="token function">__repr__</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> <span class="token builtin">repr</span><span class="token punctuation">(</span>self<span class="token punctuation">.</span>table<span class="token punctuation">)</span>
+</code></pre>
+<h5 id="programme-de-test-3">Programme de test</h5>
+<pre class=" language-python"><code class="prism  language-python">th2 <span class="token operator">=</span> TableHachageV2<span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">)</span>
+th2<span class="token punctuation">.</span>ajouter<span class="token punctuation">(</span><span class="token number">3</span><span class="token punctuation">,</span> <span class="token number">3</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>th2<span class="token punctuation">)</span>
+th2<span class="token punctuation">.</span>ajouter<span class="token punctuation">(</span><span class="token number">9</span><span class="token punctuation">,</span> <span class="token number">9</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>th2<span class="token punctuation">)</span>
+th2<span class="token punctuation">.</span>ajouter<span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">,</span> <span class="token number">10</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>th2<span class="token punctuation">)</span>
+th2<span class="token punctuation">.</span>ajouter<span class="token punctuation">(</span><span class="token number">12</span><span class="token punctuation">,</span> <span class="token number">12</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>th2<span class="token punctuation">)</span>
+th2<span class="token punctuation">.</span>ajouter<span class="token punctuation">(</span><span class="token number">5</span><span class="token punctuation">,</span> <span class="token number">5</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>th2<span class="token punctuation">)</span>
+<span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span>
+<span class="token punctuation">[</span><span class="token punctuation">{</span><span class="token number">3</span> <span class="token punctuation">:</span> <span class="token number">3</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token boolean">None</span><span class="token punctuation">]</span>
+<span class="token punctuation">[</span><span class="token punctuation">{</span><span class="token number">3</span> <span class="token punctuation">:</span> <span class="token number">3</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token boolean">None</span><span class="token punctuation">,</span> <span class="token punctuation">{</span><span class="token number">9</span> <span class="token punctuation">:</span> <span class="token number">9</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token boolean">None</span><span class="token punctuation">]</span>
+<span class="token punctuation">[</span><span class="token punctuation">{</span><span class="token number">3</span> <span class="token punctuation">:</span> <span class="token number">3</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token boolean">None</span><span class="token punctuation">,</span> <span class="token punctuation">{</span><span class="token number">9</span> <span class="token punctuation">:</span> <span class="token number">9</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span><span class="token number">10</span> <span class="token punctuation">:</span> <span class="token number">10</span><span class="token punctuation">}</span><span class="token punctuation">]</span>
+<span class="token punctuation">[</span><span class="token boolean">None</span><span class="token punctuation">,</span> <span class="token boolean">None</span><span class="token punctuation">,</span> <span class="token punctuation">{</span><span class="token number">9</span> <span class="token punctuation">:</span> <span class="token number">9</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span><span class="token number">10</span> <span class="token punctuation">:</span> <span class="token number">10</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span><span class="token number">3</span> <span class="token punctuation">:</span> <span class="token number">3</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span><span class="token number">12</span> <span class="token punctuation">:</span> <span class="token number">12</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token boolean">None</span><span class="token punctuation">,</span> <span class="token boolean">None</span><span class="token punctuation">]</span>
+<span class="token punctuation">[</span><span class="token boolean">None</span><span class="token punctuation">,</span> <span class="token boolean">None</span><span class="token punctuation">,</span> <span class="token punctuation">{</span><span class="token number">9</span> <span class="token punctuation">:</span> <span class="token number">9</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span><span class="token number">10</span> <span class="token punctuation">:</span> <span class="token number">10</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span><span class="token number">3</span> <span class="token punctuation">:</span> <span class="token number">3</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span><span class="token number">12</span> <span class="token punctuation">:</span> <span class="token number">12</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span><span class="token number">5</span> <span class="token punctuation">:</span> <span class="token number">5</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token boolean">None</span><span class="token punctuation">]</span>
+</code></pre>
+<p>💡 On voit bien que la table se redimensionne quand elle est (presque) pleine, et que les éléments sont réorganisés après redimensionnement.</p>
+<h3 id="application--compter--afficher-les-occurrences-des-mots-dans-un-texte">Application : compter / afficher les occurrences des mots dans un texte</h3>
+<p>On peut utiliser une table de hachage pour compter le nombre d’occurrences des mots d’un texte : on parcourt tous les mots, qui servent de clé à la table de hachage, et pour chacun d’eux on ajoute 1 à la valeur associée :</p>
+<pre class=" language-python"><code class="prism  language-python"><span class="token keyword">def</span> <span class="token function">compter_mots</span><span class="token punctuation">(</span>texte<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    th <span class="token operator">=</span> TableHachageV2<span class="token punctuation">(</span><span class="token number">100</span><span class="token punctuation">)</span>
+    
+    <span class="token keyword">for</span> mot <span class="token keyword">in</span> texte<span class="token punctuation">.</span>split<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">if</span> th<span class="token punctuation">.</span>valeur<span class="token punctuation">(</span>mot<span class="token punctuation">)</span> <span class="token keyword">is</span> <span class="token boolean">None</span><span class="token punctuation">:</span>
+            th<span class="token punctuation">.</span>ajouter<span class="token punctuation">(</span>mot<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">)</span>
+        <span class="token keyword">else</span><span class="token punctuation">:</span>
+            th<span class="token punctuation">.</span>ajouter<span class="token punctuation">(</span>mot<span class="token punctuation">,</span> th<span class="token punctuation">.</span>valeur<span class="token punctuation">(</span>mot<span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span>
+    <span class="token keyword">return</span> th
+
+f <span class="token operator">=</span> <span class="token builtin">open</span><span class="token punctuation">(</span><span class="token string">"notre-dame.txt"</span><span class="token punctuation">,</span> <span class="token string">'r'</span><span class="token punctuation">,</span> encoding<span class="token operator">=</span><span class="token string">"utf-8"</span><span class="token punctuation">)</span>
+texte <span class="token operator">=</span> f<span class="token punctuation">.</span>read<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>replace<span class="token punctuation">(</span><span class="token string">','</span><span class="token punctuation">,</span> <span class="token string">''</span><span class="token punctuation">)</span><span class="token punctuation">.</span>replace<span class="token punctuation">(</span><span class="token string">'.'</span><span class="token punctuation">,</span> <span class="token string">''</span><span class="token punctuation">)</span><span class="token punctuation">.</span>replace<span class="token punctuation">(</span><span class="token string">';'</span><span class="token punctuation">,</span> <span class="token string">''</span><span class="token punctuation">)</span><span class="token punctuation">.</span>replace<span class="token punctuation">(</span><span class="token string">'\''</span><span class="token punctuation">,</span> <span class="token string">' '</span><span class="token punctuation">)</span><span class="token punctuation">.</span>lower<span class="token punctuation">(</span><span class="token punctuation">)</span>
+f<span class="token punctuation">.</span>close<span class="token punctuation">(</span><span class="token punctuation">)</span>
+th <span class="token operator">=</span> compter_mots<span class="token punctuation">(</span>texte<span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>th<span class="token punctuation">)</span>
+<span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span>
+<span class="token punctuation">[</span><span class="token punctuation">{</span>ciel <span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>vers <span class="token punctuation">:</span> <span class="token number">3</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>ainsi <span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>aujourd <span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>vigne <span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>justice <span class="token punctuation">:</span> <span class="token number">2</span><span class="token punctuation">}</span><span class="token punctuation">,</span>
+<span class="token punctuation">{</span>ait <span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>flandre <span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>temps <span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token boolean">None</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>donc <span class="token punctuation">:</span> <span class="token number">1</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token boolean">None</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>grand <span class="token punctuation">:</span> <span class="token number">2</span><span class="token punctuation">}</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+</code></pre>
+<p>💡 On supprime les signes de ponctuation et on convertit le texte en minuscules (<code>lower</code>) pour ne pas distinguer par exemple <code>le</code> et <code>Le</code>.</p>
+<p>Si on veut “perfectionner” ce programme pour qu’il affiche toutes les occurrences d’un mot sous la forme :</p>
+<pre><code>Le mot 'paris' apparaît :
+- à la ligne 2, mot 39
+- à la ligne 3, mot 53
+- à la ligne 3, mot 108
+- à la ligne 4, mot 13
+- à la ligne 9, mot 15
+</code></pre>
+<p>il faut d’abord découper le texte en ligne, et chaque ligne en mot. Au niveau des éléments de la table de hachage, la valeur n’est plus le nombre d’occurrences, mais un <em>couple</em> <code>(numéro de ligne ; numéro du mot)</code>.</p>
+<p>💡 Comme les indices commences à 0, on ajoute 1 pour avoir une numérotation plus “classique” des lignes et des mots.</p>
+<p>💡 on utilise la fonction Python <code>enumerate</code> pour récupérer <em>à la fois</em>, quand on parcourt une liste, l’indice courant et la valeur de la liste à cet indice.</p>
+<pre class=" language-python"><code class="prism  language-python"><span class="token keyword">def</span> <span class="token function">recenser_mots</span><span class="token punctuation">(</span>texte<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    th <span class="token operator">=</span> TableHachageV2<span class="token punctuation">(</span><span class="token number">100</span><span class="token punctuation">)</span>
+    
+    <span class="token keyword">for</span> numligne<span class="token punctuation">,</span> ligne <span class="token keyword">in</span> <span class="token builtin">enumerate</span><span class="token punctuation">(</span>texte<span class="token punctuation">.</span>split<span class="token punctuation">(</span><span class="token string">'\n'</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">for</span> index<span class="token punctuation">,</span> mot  <span class="token keyword">in</span> <span class="token builtin">enumerate</span><span class="token punctuation">(</span>ligne<span class="token punctuation">.</span>split<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+            <span class="token keyword">if</span> th<span class="token punctuation">.</span>valeur<span class="token punctuation">(</span>mot<span class="token punctuation">)</span> <span class="token keyword">is</span> <span class="token boolean">None</span><span class="token punctuation">:</span>
+                th<span class="token punctuation">.</span>ajouter<span class="token punctuation">(</span>mot<span class="token punctuation">,</span> <span class="token punctuation">[</span><span class="token punctuation">(</span>numligne<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">,</span> index<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+            <span class="token keyword">else</span><span class="token punctuation">:</span>
+                th<span class="token punctuation">.</span>valeur<span class="token punctuation">(</span>mot<span class="token punctuation">)</span><span class="token punctuation">.</span>append<span class="token punctuation">(</span><span class="token punctuation">(</span>numligne<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">,</span> index<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">)</span>    <span class="token comment"># car append renvoie None</span>
+    
+    <span class="token keyword">return</span> th
+
+f <span class="token operator">=</span> <span class="token builtin">open</span><span class="token punctuation">(</span><span class="token string">"notre-dame.txt"</span><span class="token punctuation">,</span> <span class="token string">'r'</span><span class="token punctuation">,</span> encoding<span class="token operator">=</span><span class="token string">"utf-8"</span><span class="token punctuation">)</span>
+texte <span class="token operator">=</span> f<span class="token punctuation">.</span>read<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">.</span>replace<span class="token punctuation">(</span><span class="token string">','</span><span class="token punctuation">,</span> <span class="token string">''</span><span class="token punctuation">)</span><span class="token punctuation">.</span>replace<span class="token punctuation">(</span><span class="token string">'.'</span><span class="token punctuation">,</span> <span class="token string">''</span><span class="token punctuation">)</span><span class="token punctuation">.</span>replace<span class="token punctuation">(</span><span class="token string">';'</span><span class="token punctuation">,</span> <span class="token string">''</span><span class="token punctuation">)</span><span class="token punctuation">.</span>replace<span class="token punctuation">(</span><span class="token string">'\''</span><span class="token punctuation">,</span> <span class="token string">' '</span><span class="token punctuation">)</span><span class="token punctuation">.</span>lower<span class="token punctuation">(</span><span class="token punctuation">)</span>
+f<span class="token punctuation">.</span>close<span class="token punctuation">(</span><span class="token punctuation">)</span>
+th <span class="token operator">=</span> recenser_mots<span class="token punctuation">(</span>texte<span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>th<span class="token punctuation">)</span>
+<span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span><span class="token operator">-</span>
+<span class="token punctuation">[</span><span class="token punctuation">{</span>ciel <span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">(</span><span class="token number">9</span><span class="token punctuation">,</span> <span class="token number">75</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>vers <span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">(</span><span class="token number">7</span><span class="token punctuation">,</span> <span class="token number">21</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token number">9</span><span class="token punctuation">,</span> <span class="token number">26</span><span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token punctuation">(</span><span class="token number">9</span><span class="token punctuation">,</span> <span class="token number">39</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">}</span><span class="token punctuation">,</span> <span class="token punctuation">{</span>ainsi <span class="token punctuation">:</span> <span class="token punctuation">[</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token number">27</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token punctuation">}</span><span class="token punctuation">.</span><span class="token punctuation">.</span><span class="token punctuation">.</span>
+</code></pre>
+<p>ce qui nous indique que dans le texte choisi, le mot <code>ciel</code> apparaît une seule fois : c’est le 75ème mot de la ligne 9 ; quant au mot <code>vers</code>, il apparaît 3 fois (une fois ligne 7, et deux fois ligne 9).</p>
+<p>Comme la fonction <code>recenser_mots</code> retourne la table de hachage des résultats, on peut utiliser les méthodes de la classe <code>TableHachageV2</code> pour trouver les occurrences d’un mot en particulier : <code>print(th.valeur("paris"))</code> donne <code>[(2, 39), (3, 53), (3, 108), (4, 13), (9, 15)]</code>. Pour avoir un résultat sous une forme un peu plus lisible, on écrit une fonction <code>rechercher(th, mot)</code> (qui recherche un <code>mot</code> dans la table de hachage <code>th</code> donnée en paramètre) :</p>
+<pre class=" language-python"><code class="prism  language-python"><span class="token keyword">def</span> <span class="token function">rechercher</span><span class="token punctuation">(</span>th<span class="token punctuation">,</span> mot<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">print</span><span class="token punctuation">(</span>f<span class="token string">"Le mot '{mot}'"</span><span class="token punctuation">,</span> end<span class="token operator">=</span><span class="token string">''</span><span class="token punctuation">)</span>
+    occurrences <span class="token operator">=</span> th<span class="token punctuation">.</span>valeur<span class="token punctuation">(</span>mot<span class="token punctuation">)</span>
+    <span class="token keyword">if</span> occurrences <span class="token keyword">is</span> <span class="token boolean">None</span><span class="token punctuation">:</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">" n'apparaît pas dans le texte"</span><span class="token punctuation">)</span>
+    <span class="token keyword">else</span><span class="token punctuation">:</span>
+        <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">" apparaît :"</span><span class="token punctuation">)</span>
+        <span class="token keyword">for</span> o <span class="token keyword">in</span> occurrences<span class="token punctuation">:</span>
+            <span class="token keyword">print</span><span class="token punctuation">(</span>f<span class="token string">"- à la ligne {o[0]}, mot {o[1]}"</span><span class="token punctuation">)</span>
+</code></pre>
+<pre class=" language-python"><code class="prism  language-python"><span class="token operator">&gt;&gt;</span><span class="token operator">&gt;&gt;</span> rechercher<span class="token punctuation">(</span>th<span class="token punctuation">,</span> <span class="token string">"paris"</span><span class="token punctuation">)</span>
+Le mot <span class="token string">'paris'</span> apparaît <span class="token punctuation">:</span>
+<span class="token operator">-</span> à la ligne <span class="token number">2</span><span class="token punctuation">,</span> mot <span class="token number">39</span>
+<span class="token operator">-</span> à la ligne <span class="token number">3</span><span class="token punctuation">,</span> mot <span class="token number">53</span>
+<span class="token operator">-</span> à la ligne <span class="token number">3</span><span class="token punctuation">,</span> mot <span class="token number">108</span>
+<span class="token operator">-</span> à la ligne <span class="token number">4</span><span class="token punctuation">,</span> mot <span class="token number">13</span>
+<span class="token operator">-</span> à la ligne <span class="token number">9</span><span class="token punctuation">,</span> mot <span class="token number">15</span>
+</code></pre>
+<p>⚠️ Comme on convertit le texte en minuscules avant traitement, si on appelle la fonction <code>rechercher</code> avec le mot <code>Paris</code> (avec un P majuscule), elle nous dira que le mot n’apparaît pas dans le texte.</p>
+<h2 id="exercice-5--problème-de-josephus">Exercice 5 : Problème de Josephus</h2>
+<p>Une proposition de solution avec une version simplifiée d’une liste chaînée circulaire :</p>
+<pre class=" language-python"><code class="prism  language-python"><span class="token keyword">class</span>  <span class="token class-name">Maillon</span><span class="token punctuation">:</span>
+	<span class="token keyword">def</span>  <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> k<span class="token punctuation">)</span><span class="token punctuation">:</span>
+		self<span class="token punctuation">.</span>valeur <span class="token operator">=</span> k
+		self<span class="token punctuation">.</span>precedent <span class="token operator">=</span> <span class="token boolean">None</span>
+		self<span class="token punctuation">.</span>suivant <span class="token operator">=</span> <span class="token boolean">None</span>
+	
+	<span class="token keyword">def</span>  <span class="token function">supprimer</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+		p <span class="token operator">=</span> self<span class="token punctuation">.</span>precedent
+		s <span class="token operator">=</span> self<span class="token punctuation">.</span>suivant
+		p<span class="token punctuation">.</span>suivant <span class="token operator">=</span> s
+		s<span class="token punctuation">.</span>precedent <span class="token operator">=</span> p
+
+<span class="token keyword">class</span>  <span class="token class-name">ListeChaineeCirculaire</span><span class="token punctuation">:</span>
+	<span class="token keyword">def</span>  <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> n<span class="token punctuation">)</span><span class="token punctuation">:</span>
+		self<span class="token punctuation">.</span>tete <span class="token operator">=</span> Maillon<span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">)</span>
+		self<span class="token punctuation">.</span>taille <span class="token operator">=</span> n
+		
+		prec <span class="token operator">=</span> self<span class="token punctuation">.</span>tete
+		<span class="token keyword">for</span>  i  <span class="token keyword">in</span>  <span class="token builtin">range</span><span class="token punctuation">(</span><span class="token number">2</span><span class="token punctuation">,</span> n<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+			m <span class="token operator">=</span> Maillon<span class="token punctuation">(</span>i<span class="token punctuation">)</span>
+			m<span class="token punctuation">.</span>precedent <span class="token operator">=</span> prec
+			prec<span class="token punctuation">.</span>suivant <span class="token operator">=</span> m
+			prec <span class="token operator">=</span> m
+		m<span class="token punctuation">.</span>suivant <span class="token operator">=</span> self<span class="token punctuation">.</span>tete
+		self<span class="token punctuation">.</span>tete<span class="token punctuation">.</span>precedent <span class="token operator">=</span> m
+
+<span class="token keyword">def</span>  <span class="token function">Josephus</span><span class="token punctuation">(</span>n<span class="token punctuation">,</span> k<span class="token punctuation">)</span><span class="token punctuation">:</span>
+	l <span class="token operator">=</span> ListeChaineeCirculaire<span class="token punctuation">(</span>n<span class="token punctuation">)</span>
+	sortie <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+
+	courant <span class="token operator">=</span> l<span class="token punctuation">.</span>tete<span class="token punctuation">.</span>precedent
+	<span class="token keyword">for</span> j <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span>n<span class="token punctuation">)</span><span class="token punctuation">:</span>
+		<span class="token keyword">for</span> i <span class="token keyword">in</span> <span class="token builtin">range</span><span class="token punctuation">(</span>k<span class="token punctuation">)</span><span class="token punctuation">:</span>
+			courant <span class="token operator">=</span> courant<span class="token punctuation">.</span>suivant
+		sortie<span class="token punctuation">.</span>append<span class="token punctuation">(</span>courant<span class="token punctuation">.</span>valeur<span class="token punctuation">)</span>
+		courant<span class="token punctuation">.</span>supprimer<span class="token punctuation">(</span><span class="token punctuation">)</span>
+		l<span class="token punctuation">.</span>tete <span class="token operator">=</span> courant<span class="token punctuation">.</span>precedent <span class="token comment"># Ne pas oublier, si on veut vraiment supprimer les maillons</span>
+
+	<span class="token keyword">print</span><span class="token punctuation">(</span>sortie<span class="token punctuation">)</span>
+
+Josephus<span class="token punctuation">(</span><span class="token number">15</span><span class="token punctuation">,</span> <span class="token number">4</span><span class="token punctuation">)</span>
+<span class="token comment"># [4, 8, 12, 1, 6, 11, 2, 9, 15, 10, 5, 3, 7, 14, 13]</span>
+</code></pre>
+<blockquote>
+<p>Written with <a href="https://stackedit.io/">StackEdit</a>.</p>
+</blockquote>
+
+    </div>
+  </div>
+</body>
+
+</html>

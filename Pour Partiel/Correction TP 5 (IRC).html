@@ -1,0 +1,496 @@
+﻿<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Correction TP 5 (IRC)</title>
+  <link rel="stylesheet" href="https://stackedit.io/style.css" />
+</head>
+
+<body class="stackedit">
+  <div class="stackedit__left">
+    <div class="stackedit__toc">
+      
+<ul>
+<li><a href="#correction-du-tp-5---arbres">Correction du TP 5 - Arbres</a>
+<ul>
+<li><a href="#exercice-1--arbres-binaires-de-recherche">Exercice 1 : Arbres binaires de recherche</a></li>
+<li><a href="#exercice-2---arbre-dexpression-et-notation-polonaise-inverse">Exercice 2 - Arbre d’expression et notation polonaise inverse</a></li>
+<li><a href="#exercice-3---question-dentretien-chez-facebook">Exercice 3 - Question d’entretien chez Facebook</a></li>
+<li><a href="#exercice-4---arbre-binaire-de-recherche">Exercice 4 - Arbre binaire de recherche</a>
+<ul>
+<li></li>
+</ul>
+</li>
+<li><a href="#exercice-5---akinator">Exercice 5 - Akinator</a></li>
+</ul>
+</li>
+</ul>
+
+    </div>
+  </div>
+  <div class="stackedit__right">
+    <div class="stackedit__html">
+      <h1 id="correction-du-tp-5---arbres">Correction du TP 5 - Arbres</h1>
+<h2 id="exercice-1--arbres-binaires-de-recherche">Exercice 1 : Arbres binaires de recherche</h2>
+<p><em>Construisez l’arbre binaire de recherche à partir de la liste suivante (prise dans cet ordre) : 25,60,35,10,5,20,65,45,70,40,50,55,30,15</em></p>
+<p><strong>Solution :</strong><br>
+On commence par insérer 25 en tant que racine de l’arbre ; chaque valeur insérée doit ensuite respecter la définition d’un arbre binaire de recherche : toutes les valeurs dans le sous-arbre gauche d’un nœud doivent être inférieures à ce nœud, et toutes les valeurs dans le sous-arbre droit doivent être supérieures.<br>
+<img src="https://i.ibb.co/hVrPCBQ/ABR1.png" alt=""></p>
+<p><em>Donnez l’arbre obtenu en supprimant la valeur 35</em><br>
+<strong>Solution :</strong><br>
+Il existe deux règles possibles permettant de supprimer un nœud ayant deux fils d’un arbre binaire de recherche tout en conservant la propriété de cette structure :</p>
+<ul>
+<li>soit on échange le nœud à supprimer avec son prédécesseur immédiat</li>
+<li>soit on échange le nœud à supprimer avec son successeur immédiat</li>
+</ul>
+<p>et on recommence éventuellement l’opération si le nœud à supprimer a de nouveau deux nœuds fils.</p>
+<p>Si on applique ici la règle du successeur, on permute 35 et 40 ; 35 devient alors une feuille, qu’on peut directement supprimer :<br>
+<img src="https://i.ibb.co/1q7x5VQ/ABR2.png" alt=""></p>
+<p><em>Donnez l’arbre obtenu en supprimant la valeur 25</em><br>
+<strong>Solution :</strong><br>
+Si on applique (par exemple) de nouveau la règle du successeur, on permute les nœuds 25 et 30. A nouveau, 25 devient une feuille, qu’on peut directement supprimer.<br>
+<img src="https://i.ibb.co/DfPX0FB/ABR3.png" alt=""></p>
+<h2 id="exercice-2---arbre-dexpression-et-notation-polonaise-inverse">Exercice 2 - Arbre d’expression et notation polonaise inverse</h2>
+<h3 id="question-1">Question 1</h3>
+<p><em>Construisez l’arbre d’expression de la formule <span class="katex--inline"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mo stretchy="false">(</mo><mn>5</mn><mo>+</mo><mi>z</mi><mo stretchy="false">)</mo><mi mathvariant="normal">/</mi><mtext>−</mtext><mn>8</mn><mo stretchy="false">)</mo><mtext>∗</mtext><mo stretchy="false">(</mo><msup><mn>4</mn><mn>2</mn></msup><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">((5 + z)/ − 8) ∗ (4^2)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 1em; vertical-align: -0.25em;"></span><span class="mopen">((</span><span class="mord">5</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right: 0.222222em;"></span></span><span class="base"><span class="strut" style="height: 1.06411em; vertical-align: -0.25em;"></span><span class="mord mathnormal" style="margin-right: 0.04398em;">z</span><span class="mclose">)</span><span class="mord">/−8</span><span class="mclose">)</span><span class="mord">∗</span><span class="mopen">(</span><span class="mord"><span class="mord">4</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.814108em;"><span class="" style="top: -3.063em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mclose">)</span></span></span></span></span></em></p>
+<p><strong>Solution :</strong><br>
+On construit un arbre d’expression en procédant de manière récursive :</p>
+<ol>
+<li>les <em>variables</em> / <em>constantes</em> sont des arbres d’expression</li>
+<li>deux arbres d’expression sont reliés par le nœud <em>opérateur</em> correspondant dans la formule. Ce qui nous donne ici :<br>
+<img src="https://i.ibb.co/j5nj7z7/image.png" alt="" width="400"></li>
+</ol>
+<p>💡 Pour l’expression <span class="katex--inline"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mn>8</mn></mrow><annotation encoding="application/x-tex">-8</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 0.72777em; vertical-align: -0.08333em;"></span><span class="mord">−</span><span class="mord">8</span></span></span></span></span>, 8 est un fils <em>droit</em> car on considère que <span class="katex--inline"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo><mn>8</mn></mrow><annotation encoding="application/x-tex">-8</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 0.72777em; vertical-align: -0.08333em;"></span><span class="mord">−</span><span class="mord">8</span></span></span></span></span> correspond à l’expression <span class="katex--inline"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>0</mn><mo>−</mo><mn>8</mn></mrow><annotation encoding="application/x-tex">0 -8</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 0.72777em; vertical-align: -0.08333em;"></span><span class="mord">0</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right: 0.222222em;"></span></span><span class="base"><span class="strut" style="height: 0.64444em; vertical-align: 0em;"></span><span class="mord">8</span></span></span></span></span> dans laquelle on s’autorise à supprimer le 0. De plus, cela permet de conserver l’ordre de lecture habituel dans le parcours infixe de l’arbre (cf. question suivante).</p>
+<h3 id="question-2">Question 2</h3>
+<p><em>Ecrivez le résultat du parcours infixe de l’arbre obtenu. S’agit-il exactement de la même formule qu’à<br>
+la question précédente ? Que faudrait-il rajouter ?</em></p>
+<p><strong>Solution :</strong><br>
+Le parcours <em>infixe</em> consiste à partir (comme d’habitude) de la branche la plus à gauche et à marquer un nœud dès qu’on passe <em>en-dessous</em>. Ce qui nous donne ici : <span class="katex--inline"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>5</mn><mo>+</mo><mi>z</mi><mi mathvariant="normal">/</mi><mo>−</mo><mn>8</mn><mo>∗</mo><msup><mn>4</mn><mn>2</mn></msup></mrow><annotation encoding="application/x-tex">5 + z / - 8 * 4 ^ 2</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 0.72777em; vertical-align: -0.08333em;"></span><span class="mord">5</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right: 0.222222em;"></span></span><span class="base"><span class="strut" style="height: 1em; vertical-align: -0.25em;"></span><span class="mord mathnormal" style="margin-right: 0.04398em;">z</span><span class="mord">/</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right: 0.222222em;"></span></span><span class="base"><span class="strut" style="height: 0.64444em; vertical-align: 0em;"></span><span class="mord">8</span><span class="mspace" style="margin-right: 0.222222em;"></span><span class="mbin">∗</span><span class="mspace" style="margin-right: 0.222222em;"></span></span><span class="base"><span class="strut" style="height: 0.814108em; vertical-align: 0em;"></span><span class="mord"><span class="mord">4</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height: 0.814108em;"><span class="" style="top: -3.063em; margin-right: 0.05em;"><span class="pstrut" style="height: 2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span></span></span></span></span> : on obtient une expression proche de l’expression de départ, mais sans les parenthèses, ce qui conduit, si on applique les règles de priorité des opérateurs mathématiques, à un résultat différent.</p>
+<h3 id="question-3">Question 3</h3>
+<p><em>Quel parcours d’arbre permet de retrouver une formule écrite en notation polonaise inversée ?</em></p>
+<p><strong>Solution :</strong><br>
+Il s’agit du parcours <em>postfixe</em>. D’ailleurs, la notation polonaise inversée est aussi appelée <em>notation postfixe</em>, car dans cette notation les opérateurs sont situés <em>après</em> les opérandes (ce qui permet d’évaluer l’expression sans parenthèse et sans ambiguïté).</p>
+<h3 id="question-4">Question 4</h3>
+<p><em>Comment adapter l’algorithme de ce parcours pour calculer le résultat d’une expression mathématique écrite en NPI ? Implémentez cet algorithme en Python.</em></p>
+<p><strong>Solution :</strong><br>
+L’évaluation d’une expression en NPI est très simple à l’aide d’une <em>pile</em> :</p>
+<ul>
+<li>quand on lit un <em>opérande</em> (valeur, constante…), on l’empile</li>
+<li>quand on lit un <em>opérateur</em>, on dépile les deux valeurs au sommet de la pile, on effectue l’opération  correspondante, et on empile le résultat</li>
+</ul>
+<p>💡 Le fait de dépiler systématiquement <em>deux</em> opérandes est valables pour les opérateurs <em>binaires</em>. Pour les opérateurs <em>unaires</em> (type <span class="katex--inline"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msqrt><mrow></mrow></msqrt></mrow><annotation encoding="application/x-tex">\sqrt{}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 1.04em; vertical-align: -0.2395em;"></span><span class="mord sqrt"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height: 0.8005em;"><span class="svg-align" style="top: -3em;"><span class="pstrut" style="height: 3em;"></span><span class="mord" style="padding-left: 0.833em;"></span></span><span class="" style="top: -2.7605em;"><span class="pstrut" style="height: 3em;"></span><span class="hide-tail" style="min-width: 0.853em; height: 1.08em;"><svg width="400em" height="1.08em" viewBox="0 0 400000 1080" preserveAspectRatio="xMinYMin slice"><path d="M95,702
+c-2.7,0,-7.17,-2.7,-13.5,-8c-5.8,-5.3,-9.5,-10,-9.5,-14
+c0,-2,0.3,-3.3,1,-4c1.3,-2.7,23.83,-20.7,67.5,-54
+c44.2,-33.3,65.8,-50.3,66.5,-51c1.3,-1.3,3,-2,5,-2c4.7,0,8.7,3.3,12,10
+s173,378,173,378c0.7,0,35.3,-71,104,-213c68.7,-142,137.5,-285,206.5,-429
+c69,-144,104.5,-217.7,106.5,-221
+l0 -0
+c5.3,-9.3,12,-14,20,-14
+H400000v40H845.2724
+s-225.272,467,-225.272,467s-235,486,-235,486c-2.7,4.7,-9,7,-19,7
+c-6,0,-10,-1,-12,-3s-194,-422,-194,-422s-65,47,-65,47z
+M834 80h400000v40h-400000z"></path></svg></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height: 0.2395em;"><span class=""></span></span></span></span></span></span></span></span></span> ou <span class="katex--inline"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo></mrow><annotation encoding="application/x-tex">-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 0.66666em; vertical-align: -0.08333em;"></span><span class="mord">−</span></span></span></span></span>), on ne dépile évidemment qu’une seule valeur.</p>
+<p>💡 La distinction entre le <span class="katex--inline"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo></mrow><annotation encoding="application/x-tex">-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 0.66666em; vertical-align: -0.08333em;"></span><span class="mord">−</span></span></span></span></span> de la soustraction (<span class="katex--inline"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo></mrow><annotation encoding="application/x-tex">-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 0.66666em; vertical-align: -0.08333em;"></span><span class="mord">−</span></span></span></span></span> binaire) et le <span class="katex--inline"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo></mrow><annotation encoding="application/x-tex">-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 0.66666em; vertical-align: -0.08333em;"></span><span class="mord">−</span></span></span></span></span> de la négation (<span class="katex--inline"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo></mrow><annotation encoding="application/x-tex">-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 0.66666em; vertical-align: -0.08333em;"></span><span class="mord">−</span></span></span></span></span> unaire) se fait généralement en utilisant deux symboles différents (le - unaire est généralement plus court que le <span class="katex--inline"><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo>−</mo></mrow><annotation encoding="application/x-tex">-</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height: 0.66666em; vertical-align: -0.08333em;"></span><span class="mord">−</span></span></span></span></span> binaire). Une autre possibilité est de repérer qu’un opérateur unaire est soit précédé d’un autre opérateur, soit de rien du tout (s’il est au tout début de l’expression).</p>
+<pre class=" language-python"><code class="prism  language-python"><span class="token comment"># On suppose qu'on dispose d'une classe Pile fonctionnelle (cf. TP 1)</span>
+<span class="token keyword">from</span> Pile <span class="token keyword">import</span> Pile
+
+<span class="token keyword">def</span> <span class="token function">calculerExpressionNPI</span><span class="token punctuation">(</span>exp<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment"># On commence par convertir l'expression en une liste d'éléments</span>
+    l <span class="token operator">=</span> exp<span class="token punctuation">.</span>split<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    
+    unaryOperator <span class="token operator">=</span> <span class="token boolean">False</span>
+    operators <span class="token operator">=</span> <span class="token builtin">set</span><span class="token punctuation">(</span><span class="token punctuation">[</span><span class="token string">'+'</span><span class="token punctuation">,</span> <span class="token string">'-'</span><span class="token punctuation">,</span> <span class="token string">'*'</span><span class="token punctuation">,</span> <span class="token string">'/'</span><span class="token punctuation">,</span> <span class="token string">'#'</span><span class="token punctuation">]</span><span class="token punctuation">)</span>
+
+    p <span class="token operator">=</span> Pile<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">for</span> elem <span class="token keyword">in</span> l<span class="token punctuation">:</span>
+        <span class="token keyword">if</span> elem <span class="token operator">not</span> <span class="token keyword">in</span> operators<span class="token punctuation">:</span>
+            p<span class="token punctuation">.</span>empiler<span class="token punctuation">(</span><span class="token builtin">float</span><span class="token punctuation">(</span>elem<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token keyword">else</span><span class="token punctuation">:</span>
+            <span class="token comment"># Dans tous les cas, on dépile au moins une valeur</span>
+            <span class="token keyword">if</span> p<span class="token punctuation">.</span>estVide<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+                <span class="token keyword">print</span> <span class="token punctuation">(</span><span class="token string">"Erreur ! Expression invalide"</span><span class="token punctuation">)</span>
+                <span class="token keyword">return</span>
+            op1 <span class="token operator">=</span> p<span class="token punctuation">.</span>depiler<span class="token punctuation">(</span><span class="token punctuation">)</span>
+
+            <span class="token keyword">if</span> elem <span class="token operator">==</span> <span class="token string">'#'</span><span class="token punctuation">:</span>
+                p<span class="token punctuation">.</span>empiler<span class="token punctuation">(</span><span class="token operator">-</span>op1<span class="token punctuation">)</span>
+            <span class="token keyword">else</span><span class="token punctuation">:</span>
+                <span class="token comment"># si c'est un opérateur binaire, il faut dépiler une deuxième valeur </span>
+                <span class="token keyword">if</span> p<span class="token punctuation">.</span>estVide<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+                    <span class="token keyword">print</span> <span class="token punctuation">(</span><span class="token string">"Erreur ! Expression invalide"</span><span class="token punctuation">)</span>
+                    <span class="token keyword">return</span>
+                op2 <span class="token operator">=</span> p<span class="token punctuation">.</span>depiler<span class="token punctuation">(</span><span class="token punctuation">)</span>
+                
+                <span class="token keyword">if</span> elem <span class="token operator">==</span> <span class="token string">'+'</span><span class="token punctuation">:</span>
+                    p<span class="token punctuation">.</span>empiler<span class="token punctuation">(</span>op2 <span class="token operator">+</span> op1<span class="token punctuation">)</span>
+                <span class="token keyword">elif</span> elem <span class="token operator">==</span> <span class="token string">'-'</span><span class="token punctuation">:</span>
+                    p<span class="token punctuation">.</span>empiler<span class="token punctuation">(</span>op2 <span class="token operator">-</span> op1<span class="token punctuation">)</span>    <span class="token comment"># attention à l'ordre !</span>
+                <span class="token keyword">elif</span> elem <span class="token operator">==</span> <span class="token string">'*'</span><span class="token punctuation">:</span>
+                    p<span class="token punctuation">.</span>empiler<span class="token punctuation">(</span>op2 <span class="token operator">*</span> op1<span class="token punctuation">)</span>
+                <span class="token keyword">elif</span> elem <span class="token operator">==</span> <span class="token string">'/'</span><span class="token punctuation">:</span>
+                    p<span class="token punctuation">.</span>empiler<span class="token punctuation">(</span>op2 <span class="token operator">/</span> op1<span class="token punctuation">)</span>    <span class="token comment"># attention à l'ordre !</span>
+
+    resultat <span class="token operator">=</span> p<span class="token punctuation">.</span>depiler<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">if</span> <span class="token operator">not</span> p<span class="token punctuation">.</span>estVide<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">print</span> <span class="token punctuation">(</span><span class="token string">"Erreur ! Expression invalide"</span><span class="token punctuation">)</span>
+        <span class="token keyword">return</span>
+    <span class="token keyword">else</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> resultat
+
+<span class="token comment">##########################################################</span>
+exp1 <span class="token operator">=</span> <span class="token string">"5 2 +"</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>calculerExpressionNPI<span class="token punctuation">(</span>exp1<span class="token punctuation">)</span><span class="token punctuation">)</span>
+exp2 <span class="token operator">=</span> <span class="token string">"5 3 # * # 8 +"</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>calculerExpressionNPI<span class="token punctuation">(</span>exp2<span class="token punctuation">)</span><span class="token punctuation">)</span>
+</code></pre>
+<p>💡 Il est dommage de répéter les instructions relatives aux calculs, alors que Python dispose de l’instruction <code>eval</code> pour évaluer l’interprétation d’une chaîne de caractères. De plus, si on décide de rajouter un nouvel opérateur (par exemple, l’opérateur <code>^</code> pour la puissance), il faut à la fois l’ajouter dans l’ensemble des opérateurs, et ajouter les instructions permettant de calculer le résultat.</p>
+<p>On peut donc simplifier un peu le code précédent, à l’aide d’<code>eval</code>, et en utilisant un <em>dictionnaire</em> qui donne l’<em>arité</em> (i.e. le nombre d’opérandes) de chaque opérateur :</p>
+<pre class=" language-python"><code class="prism  language-python"><span class="token keyword">from</span> Pile <span class="token keyword">import</span> Pile
+
+<span class="token keyword">def</span> <span class="token function">calculerExpressionNPI</span><span class="token punctuation">(</span>exp<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment"># On commence par convertir l'expression en une liste d'éléments</span>
+    l <span class="token operator">=</span> exp<span class="token punctuation">.</span>split<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    
+    operators <span class="token operator">=</span> <span class="token punctuation">{</span><span class="token string">'+'</span><span class="token punctuation">:</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token string">'-'</span><span class="token punctuation">:</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token string">'*'</span><span class="token punctuation">:</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token string">'/'</span><span class="token punctuation">:</span><span class="token number">2</span><span class="token punctuation">,</span> <span class="token string">'#'</span><span class="token punctuation">:</span><span class="token number">1</span><span class="token punctuation">}</span>
+
+    p <span class="token operator">=</span> Pile<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">for</span> elem <span class="token keyword">in</span> l<span class="token punctuation">:</span>
+        <span class="token keyword">if</span> elem <span class="token operator">not</span> <span class="token keyword">in</span> operators<span class="token punctuation">:</span>
+            p<span class="token punctuation">.</span>empiler<span class="token punctuation">(</span><span class="token builtin">float</span><span class="token punctuation">(</span>elem<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        <span class="token keyword">else</span><span class="token punctuation">:</span>
+            <span class="token comment"># Dans tous les cas, on dépile au moins une valeur</span>
+            <span class="token keyword">if</span> p<span class="token punctuation">.</span>estVide<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+                <span class="token keyword">print</span> <span class="token punctuation">(</span><span class="token string">"Erreur ! Expression invalide"</span><span class="token punctuation">)</span>
+                <span class="token keyword">return</span>
+            
+            op1 <span class="token operator">=</span> p<span class="token punctuation">.</span>depiler<span class="token punctuation">(</span><span class="token punctuation">)</span>
+            <span class="token keyword">if</span> operators<span class="token punctuation">[</span>elem<span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token number">1</span><span class="token punctuation">:</span>
+                p<span class="token punctuation">.</span>empiler<span class="token punctuation">(</span><span class="token operator">-</span>op1<span class="token punctuation">)</span> <span class="token comment"># suppose que le seul opérateur unaire est la négatio,n</span>
+            <span class="token keyword">else</span><span class="token punctuation">:</span>
+                <span class="token comment"># si c'est un opérateur binaire, il faut dépiler une deuxième valeur </span>
+                <span class="token keyword">if</span> p<span class="token punctuation">.</span>estVide<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+                    <span class="token keyword">print</span> <span class="token punctuation">(</span><span class="token string">"Erreur ! Expression invalide"</span><span class="token punctuation">)</span>
+                    <span class="token keyword">return</span>
+                op2 <span class="token operator">=</span> p<span class="token punctuation">.</span>depiler<span class="token punctuation">(</span><span class="token punctuation">)</span>
+                
+                p<span class="token punctuation">.</span>empiler<span class="token punctuation">(</span><span class="token builtin">eval</span><span class="token punctuation">(</span>f<span class="token string">"{op2} {elem} {op1}"</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token comment"># attention à l'ordre !</span>
+
+    resultat <span class="token operator">=</span> p<span class="token punctuation">.</span>depiler<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">if</span> <span class="token operator">not</span> p<span class="token punctuation">.</span>estVide<span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">print</span> <span class="token punctuation">(</span><span class="token string">"Erreur ! Expression invalide"</span><span class="token punctuation">)</span>
+        <span class="token keyword">return</span>
+    <span class="token keyword">else</span><span class="token punctuation">:</span>
+        <span class="token keyword">return</span> resultat
+
+<span class="token comment">#########################################################</span>
+exp1 <span class="token operator">=</span> <span class="token string">"5 2 +"</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>calculerExpressionNPI<span class="token punctuation">(</span>exp1<span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment"># 7</span>
+exp2 <span class="token operator">=</span> <span class="token string">"5 3 # * # 8 +"</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span>calculerExpressionNPI<span class="token punctuation">(</span>exp2<span class="token punctuation">)</span><span class="token punctuation">)</span>
+<span class="token comment"># 23 (car l'expression correspond à -(5 * -3) + 8</span>
+</code></pre>
+<h2 id="exercice-3---question-dentretien-chez-facebook">Exercice 3 - Question d’entretien chez Facebook</h2>
+<h3 id="question-1--arbre-binaire">Question 1 : Arbre binaire</h3>
+<p>La plupart des implémentations d’un arbre binaire font intervenir une classe <code>Noeud</code> (de manière similaire, d’ailleurs, à notre implémentation de la structure de liste chaînée) :</p>
+<pre class=" language-python"><code class="prism  language-python"><span class="token keyword">class</span> <span class="token class-name">Noeud</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> valeur<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>data <span class="token operator">=</span> valeur
+        self<span class="token punctuation">.</span>filsGauche <span class="token operator">=</span> <span class="token boolean">None</span>   <span class="token comment"># éventuellement un Noeud</span>
+        self<span class="token punctuation">.</span>filsDroit <span class="token operator">=</span> <span class="token boolean">None</span>    <span class="token comment"># éventuellement un Noeud</span>
+
+<span class="token keyword">class</span> <span class="token class-name">ArbreBinaire</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> valeur<span class="token punctuation">)</span><span class="token punctuation">:</span>
+		self<span class="token punctuation">.</span>racine <span class="token operator">=</span> Node<span class="token punctuation">(</span>valeur<span class="token punctuation">)</span>
+	
+	<span class="token comment"># Autres méthodes...</span>
+</code></pre>
+<p>Ce qui est un peu gênant avec cette approche, c’est que les sous-arbres gauche et droite d’un nœud, ne <strong>sont pas</strong> des instances de la classe <code>ArbreBinaire</code>, mais de la classe <code>Noeud</code>… alors que <strong>ce sont</strong> des arbres binaires ! Le débat est peut-être un peu <em>philosophique</em>, mais la solution ci-dessous utilise une autre approche, où chaque sous-arbre est une instance de <code>ArbreBinaire</code>. Selon les applications, la “meilleure” approche est peut-être une approche hybride, où on conserve la classe <code>Noeud</code> pour la racine, mais où les fils gauche et droit sont des attributs de la classe <code>ArbreBinaire</code>.</p>
+<p>💡 La fonction d’affichage est issue de <a href="#%20La%20fonction%20d%27affichage%20est%20issue%20de%20:%20https://stackoverflow.com/questions/34012886/print-binary-tree-level-by-level-in-python">StackOverflow</a></p>
+<pre class=" language-python"><code class="prism  language-python"><span class="token keyword">class</span> <span class="token class-name">ArbreBinaire</span><span class="token punctuation">:</span>
+    <span class="token keyword">def</span> <span class="token function">__init__</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> valeur <span class="token operator">=</span> <span class="token boolean">None</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>racine <span class="token operator">=</span> valeur
+        self<span class="token punctuation">.</span>filsGauche <span class="token operator">=</span> <span class="token boolean">None</span>
+        self<span class="token punctuation">.</span>filsDroit <span class="token operator">=</span> <span class="token boolean">None</span>
+
+
+    <span class="token comment"># Insère au premier emplacement disponible dans l'arbre</span>
+    <span class="token keyword">def</span> <span class="token function">inserer</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> valeur<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token keyword">if</span> <span class="token operator">not</span> self<span class="token punctuation">.</span>racine<span class="token punctuation">:</span>
+            self<span class="token punctuation">.</span>racine <span class="token operator">=</span> valeur
+            <span class="token keyword">return</span>
+
+        q <span class="token operator">=</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>
+        q<span class="token punctuation">.</span>append<span class="token punctuation">(</span>self<span class="token punctuation">)</span>
+    
+        <span class="token keyword">while</span> <span class="token punctuation">(</span><span class="token builtin">len</span><span class="token punctuation">(</span>q<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+            temp <span class="token operator">=</span> q<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span>
+            q<span class="token punctuation">.</span>pop<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span>
+    
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">not</span> temp<span class="token punctuation">.</span>filsGauche<span class="token punctuation">)</span><span class="token punctuation">:</span>
+                temp<span class="token punctuation">.</span>filsGauche <span class="token operator">=</span> ArbreBinaire<span class="token punctuation">(</span>valeur<span class="token punctuation">)</span>
+                <span class="token keyword">break</span>
+            <span class="token keyword">else</span><span class="token punctuation">:</span>
+                q<span class="token punctuation">.</span>append<span class="token punctuation">(</span>temp<span class="token punctuation">.</span>filsGauche<span class="token punctuation">)</span>
+    
+            <span class="token keyword">if</span> <span class="token punctuation">(</span><span class="token operator">not</span> temp<span class="token punctuation">.</span>filsDroit<span class="token punctuation">)</span><span class="token punctuation">:</span>
+                temp<span class="token punctuation">.</span>filsDroit <span class="token operator">=</span> ArbreBinaire<span class="token punctuation">(</span>valeur<span class="token punctuation">)</span>
+                <span class="token keyword">break</span>
+            <span class="token keyword">else</span><span class="token punctuation">:</span>
+                q<span class="token punctuation">.</span>append<span class="token punctuation">(</span>temp<span class="token punctuation">.</span>filsDroit<span class="token punctuation">)</span>
+
+
+    <span class="token keyword">def</span> <span class="token function">ajouterFilsGauche</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> noeud<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>filsGauche <span class="token operator">=</span> noeud
+
+
+    <span class="token keyword">def</span> <span class="token function">ajouterFilsDroit</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> noeud<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>filsDroit <span class="token operator">=</span> noeud
+
+
+    <span class="token keyword">def</span> <span class="token function">display</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        lines<span class="token punctuation">,</span> <span class="token operator">*</span>_ <span class="token operator">=</span> self<span class="token punctuation">.</span>_display_aux<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        <span class="token keyword">for</span> line <span class="token keyword">in</span> lines<span class="token punctuation">:</span>
+            <span class="token keyword">print</span><span class="token punctuation">(</span>line<span class="token punctuation">)</span>
+    
+    
+    <span class="token keyword">def</span> <span class="token function">_display_aux</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+        <span class="token triple-quoted-string string">"""Returns list of strings, width, height, and horizontal coordinate of the root."""</span>
+        <span class="token comment"># No child.</span>
+        <span class="token keyword">if</span> self<span class="token punctuation">.</span>filsDroit <span class="token keyword">is</span> <span class="token boolean">None</span> <span class="token operator">and</span> self<span class="token punctuation">.</span>filsGauche <span class="token keyword">is</span> <span class="token boolean">None</span><span class="token punctuation">:</span>
+            line <span class="token operator">=</span> <span class="token string">'%s'</span> <span class="token operator">%</span> self<span class="token punctuation">.</span>racine
+            width <span class="token operator">=</span> <span class="token builtin">len</span><span class="token punctuation">(</span>line<span class="token punctuation">)</span>
+            height <span class="token operator">=</span> <span class="token number">1</span>
+            middle <span class="token operator">=</span> width <span class="token operator">//</span> <span class="token number">2</span>
+            <span class="token keyword">return</span> <span class="token punctuation">[</span>line<span class="token punctuation">]</span><span class="token punctuation">,</span> width<span class="token punctuation">,</span> height<span class="token punctuation">,</span> middle
+
+        <span class="token comment"># Only filsGauche child.</span>
+        <span class="token keyword">if</span> self<span class="token punctuation">.</span>filsDroit <span class="token keyword">is</span> <span class="token boolean">None</span><span class="token punctuation">:</span>
+            lines<span class="token punctuation">,</span> n<span class="token punctuation">,</span> p<span class="token punctuation">,</span> x <span class="token operator">=</span> self<span class="token punctuation">.</span>filsGauche<span class="token punctuation">.</span>_display_aux<span class="token punctuation">(</span><span class="token punctuation">)</span>
+            s <span class="token operator">=</span> <span class="token string">'%s'</span> <span class="token operator">%</span> self<span class="token punctuation">.</span>racine
+            u <span class="token operator">=</span> <span class="token builtin">len</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span>
+            first_line <span class="token operator">=</span> <span class="token punctuation">(</span>x <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token string">' '</span> <span class="token operator">+</span> <span class="token punctuation">(</span>n <span class="token operator">-</span> x <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token string">'_'</span> <span class="token operator">+</span> s
+            second_line <span class="token operator">=</span> x <span class="token operator">*</span> <span class="token string">' '</span> <span class="token operator">+</span> <span class="token string">'/'</span> <span class="token operator">+</span> <span class="token punctuation">(</span>n <span class="token operator">-</span> x <span class="token operator">-</span> <span class="token number">1</span> <span class="token operator">+</span> u<span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token string">' '</span>
+            shifted_lines <span class="token operator">=</span> <span class="token punctuation">[</span>line <span class="token operator">+</span> u <span class="token operator">*</span> <span class="token string">' '</span> <span class="token keyword">for</span> line <span class="token keyword">in</span> lines<span class="token punctuation">]</span>
+            <span class="token keyword">return</span> <span class="token punctuation">[</span>first_line<span class="token punctuation">,</span> second_line<span class="token punctuation">]</span> <span class="token operator">+</span> shifted_lines<span class="token punctuation">,</span> n <span class="token operator">+</span> u<span class="token punctuation">,</span> p <span class="token operator">+</span> <span class="token number">2</span><span class="token punctuation">,</span> n <span class="token operator">+</span> u <span class="token operator">//</span> <span class="token number">2</span>
+
+        <span class="token comment"># Only filsDroit child.</span>
+        <span class="token keyword">if</span> self<span class="token punctuation">.</span>filsGauche <span class="token keyword">is</span> <span class="token boolean">None</span><span class="token punctuation">:</span>
+            lines<span class="token punctuation">,</span> n<span class="token punctuation">,</span> p<span class="token punctuation">,</span> x <span class="token operator">=</span> self<span class="token punctuation">.</span>filsDroit<span class="token punctuation">.</span>_display_aux<span class="token punctuation">(</span><span class="token punctuation">)</span>
+            s <span class="token operator">=</span> <span class="token string">'%s'</span> <span class="token operator">%</span> self<span class="token punctuation">.</span>racine
+            u <span class="token operator">=</span> <span class="token builtin">len</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span>
+            first_line <span class="token operator">=</span> s <span class="token operator">+</span> x <span class="token operator">*</span> <span class="token string">'_'</span> <span class="token operator">+</span> <span class="token punctuation">(</span>n <span class="token operator">-</span> x<span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token string">' '</span>
+            second_line <span class="token operator">=</span> <span class="token punctuation">(</span>u <span class="token operator">+</span> x<span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token string">' '</span> <span class="token operator">+</span> <span class="token string">'\\'</span> <span class="token operator">+</span> <span class="token punctuation">(</span>n <span class="token operator">-</span> x <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token string">' '</span>
+            shifted_lines <span class="token operator">=</span> <span class="token punctuation">[</span>u <span class="token operator">*</span> <span class="token string">' '</span> <span class="token operator">+</span> line <span class="token keyword">for</span> line <span class="token keyword">in</span> lines<span class="token punctuation">]</span>
+            <span class="token keyword">return</span> <span class="token punctuation">[</span>first_line<span class="token punctuation">,</span> second_line<span class="token punctuation">]</span> <span class="token operator">+</span> shifted_lines<span class="token punctuation">,</span> n <span class="token operator">+</span> u<span class="token punctuation">,</span> p <span class="token operator">+</span> <span class="token number">2</span><span class="token punctuation">,</span> u <span class="token operator">//</span> <span class="token number">2</span>
+
+        <span class="token comment"># Two children.</span>
+        filsGauche<span class="token punctuation">,</span> n<span class="token punctuation">,</span> p<span class="token punctuation">,</span> x <span class="token operator">=</span> self<span class="token punctuation">.</span>filsGauche<span class="token punctuation">.</span>_display_aux<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        filsDroit<span class="token punctuation">,</span> m<span class="token punctuation">,</span> q<span class="token punctuation">,</span> y <span class="token operator">=</span> self<span class="token punctuation">.</span>filsDroit<span class="token punctuation">.</span>_display_aux<span class="token punctuation">(</span><span class="token punctuation">)</span>
+        s <span class="token operator">=</span> <span class="token string">'%s'</span> <span class="token operator">%</span> self<span class="token punctuation">.</span>racine
+        u <span class="token operator">=</span> <span class="token builtin">len</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span>
+        first_line <span class="token operator">=</span> <span class="token punctuation">(</span>x <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token string">' '</span> <span class="token operator">+</span> <span class="token punctuation">(</span>n <span class="token operator">-</span> x <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token string">'_'</span> <span class="token operator">+</span> s <span class="token operator">+</span> y <span class="token operator">*</span> <span class="token string">'_'</span> <span class="token operator">+</span> <span class="token punctuation">(</span>m <span class="token operator">-</span> y<span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token string">' '</span>
+        second_line <span class="token operator">=</span> x <span class="token operator">*</span> <span class="token string">' '</span> <span class="token operator">+</span> <span class="token string">'/'</span> <span class="token operator">+</span> <span class="token punctuation">(</span>n <span class="token operator">-</span> x <span class="token operator">-</span> <span class="token number">1</span> <span class="token operator">+</span> u <span class="token operator">+</span> y<span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token string">' '</span> <span class="token operator">+</span> <span class="token string">'\\'</span> <span class="token operator">+</span> <span class="token punctuation">(</span>m <span class="token operator">-</span> y <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token operator">*</span> <span class="token string">' '</span>
+        <span class="token keyword">if</span> p <span class="token operator">&lt;</span> q<span class="token punctuation">:</span>
+            filsGauche <span class="token operator">+=</span> <span class="token punctuation">[</span>n <span class="token operator">*</span> <span class="token string">' '</span><span class="token punctuation">]</span> <span class="token operator">*</span> <span class="token punctuation">(</span>q <span class="token operator">-</span> p<span class="token punctuation">)</span>
+        <span class="token keyword">elif</span> q <span class="token operator">&lt;</span> p<span class="token punctuation">:</span>
+            filsDroit <span class="token operator">+=</span> <span class="token punctuation">[</span>m <span class="token operator">*</span> <span class="token string">' '</span><span class="token punctuation">]</span> <span class="token operator">*</span> <span class="token punctuation">(</span>p <span class="token operator">-</span> q<span class="token punctuation">)</span>
+        zipped_lines <span class="token operator">=</span> <span class="token builtin">zip</span><span class="token punctuation">(</span>filsGauche<span class="token punctuation">,</span> filsDroit<span class="token punctuation">)</span>
+        lines <span class="token operator">=</span> <span class="token punctuation">[</span>first_line<span class="token punctuation">,</span> second_line<span class="token punctuation">]</span> <span class="token operator">+</span> <span class="token punctuation">[</span>a <span class="token operator">+</span> u <span class="token operator">*</span> <span class="token string">' '</span> <span class="token operator">+</span> b <span class="token keyword">for</span> a<span class="token punctuation">,</span> b <span class="token keyword">in</span> zipped_lines<span class="token punctuation">]</span>
+        <span class="token keyword">return</span> lines<span class="token punctuation">,</span> n <span class="token operator">+</span> m <span class="token operator">+</span> u<span class="token punctuation">,</span> <span class="token builtin">max</span><span class="token punctuation">(</span>p<span class="token punctuation">,</span> q<span class="token punctuation">)</span> <span class="token operator">+</span> <span class="token number">2</span><span class="token punctuation">,</span> n <span class="token operator">+</span> u <span class="token operator">//</span> <span class="token number">2</span>
+
+<span class="token comment">#####################################################################</span>
+<span class="token keyword">if</span> __name__ <span class="token operator">==</span> <span class="token string">'__main__'</span> <span class="token punctuation">:</span>
+    T <span class="token operator">=</span> ArbreBinaire<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    T<span class="token punctuation">.</span>inserer<span class="token punctuation">(</span><span class="token number">10</span><span class="token punctuation">)</span>
+    T<span class="token punctuation">.</span>inserer<span class="token punctuation">(</span><span class="token number">50</span><span class="token punctuation">)</span>
+    T<span class="token punctuation">.</span>inserer<span class="token punctuation">(</span><span class="token number">30</span><span class="token punctuation">)</span>
+    T<span class="token punctuation">.</span>inserer<span class="token punctuation">(</span><span class="token number">20</span><span class="token punctuation">)</span>
+    T<span class="token punctuation">.</span>inserer<span class="token punctuation">(</span><span class="token number">40</span><span class="token punctuation">)</span>
+    T<span class="token punctuation">.</span>inserer<span class="token punctuation">(</span><span class="token number">70</span><span class="token punctuation">)</span>
+    T<span class="token punctuation">.</span>inserer<span class="token punctuation">(</span><span class="token number">60</span><span class="token punctuation">)</span>
+    T<span class="token punctuation">.</span>inserer<span class="token punctuation">(</span><span class="token number">80</span><span class="token punctuation">)</span>
+    T<span class="token punctuation">.</span>display<span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre>
+<h3 id="question-2-">Question 2 :</h3>
+<p>Le principe est très simple : le premier caractère est la racine de l’arbre, puis <strong>récursivement</strong> :</p>
+<ul>
+<li>si on voit le caractère <code>?</code> alors on ajoute le caractère suivant en tant que fils gauche de la racine courante, et on recommence récursivement</li>
+<li>si on voit le caractère <code>:</code> alors on ajoute le caractère suivant en tant que fils droite de la racine courante.</li>
+</ul>
+<pre class=" language-python"><code class="prism  language-python"><span class="token keyword">from</span> ArbreBinaire <span class="token keyword">import</span> ArbreBinaire
+
+<span class="token keyword">def</span> <span class="token function">convertirExpression</span><span class="token punctuation">(</span>exp<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    racine <span class="token operator">=</span> ArbreBinaire<span class="token punctuation">(</span>exp<span class="token punctuation">.</span>pop<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+    <span class="token keyword">if</span> <span class="token builtin">len</span><span class="token punctuation">(</span>exp<span class="token punctuation">)</span> <span class="token operator">and</span> exp<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span><span class="token operator">==</span><span class="token string">'?'</span><span class="token punctuation">:</span>
+        exp<span class="token punctuation">.</span>pop<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span>
+        racine<span class="token punctuation">.</span>ajouterFilsGauche<span class="token punctuation">(</span>convertirExpression<span class="token punctuation">(</span>exp<span class="token punctuation">)</span><span class="token punctuation">)</span>
+        exp<span class="token punctuation">.</span>pop<span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">)</span>
+        racine<span class="token punctuation">.</span>ajouterFilsDroit<span class="token punctuation">(</span>convertirExpression<span class="token punctuation">(</span>exp<span class="token punctuation">)</span><span class="token punctuation">)</span>
+    
+    <span class="token keyword">return</span> racine
+
+convertirExpression<span class="token punctuation">(</span><span class="token builtin">list</span><span class="token punctuation">(</span><span class="token string">"a?b?c:d:e"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span>display<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token keyword">print</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
+convertirExpression<span class="token punctuation">(</span><span class="token builtin">list</span><span class="token punctuation">(</span><span class="token string">"a?b:c?d:e"</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">.</span>display<span class="token punctuation">(</span><span class="token punctuation">)</span>
+<span class="token comment">################################################</span>
+  _a 
+ <span class="token operator">/</span>  \
+ b  e
+<span class="token operator">/</span> \  
+c d  
+
+ a_  
+<span class="token operator">/</span>  \ 
+b  c 
+  <span class="token operator">/</span> \
+  d e
+</code></pre>
+<h2 id="exercice-4---arbre-binaire-de-recherche">Exercice 4 - Arbre binaire de recherche</h2>
+<p>Dans cet exercice, on définit une classe <code>ArbreBinaireRecherche</code> qui implémente la structure d’arbre binaire <strong>de recherche</strong>, à partir de la classe <code>ArbreBinaire</code> de l’exercice précédent. Autrement dit, <code>ArbreBinaireRecherche</code> <em>hérite</em> de <code>ArbreBinaire</code> :</p>
+<pre class=" language-python"><code class="prism  language-python"><span class="token keyword">from</span>  ArbreBinaire  <span class="token keyword">import</span>  ArbreBinaire
+
+<span class="token keyword">class</span>  <span class="token class-name">ArbreBinaireRecherche</span><span class="token punctuation">(</span>ArbreBinaire<span class="token punctuation">)</span><span class="token punctuation">:</span>
+</code></pre>
+<h4 id="recherche-dun-élément-dans-larbre">Recherche d’un élément dans l’arbre</h4>
+<p>Pour recherche un élément dans l’arbre, on applique tout simplement le principe d’un arbre binaire de recherche : partant de la racine, on va à gauche si l’élément cherché est plus petit, et à droite s’il est plus grand.</p>
+<p>La version qui suit est une version itérative :</p>
+<pre class=" language-python"><code class="prism  language-python"><span class="token keyword">def</span> <span class="token function">trouver</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> valeur<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    noeud_courant <span class="token operator">=</span> self
+
+    <span class="token keyword">while</span> noeud_courant <span class="token keyword">is</span> <span class="token operator">not</span> <span class="token boolean">None</span> <span class="token operator">and</span> noeud_courant<span class="token punctuation">.</span>racine <span class="token operator">!=</span> valeur<span class="token punctuation">:</span>
+        <span class="token keyword">if</span> noeud_courant<span class="token punctuation">.</span>racine <span class="token operator">&gt;</span> valeur<span class="token punctuation">:</span>
+            noeud_courant <span class="token operator">=</span> noeud_courant<span class="token punctuation">.</span>filsGauche
+        <span class="token keyword">else</span><span class="token punctuation">:</span>
+            noeud_courant <span class="token operator">=</span> noeud_courant<span class="token punctuation">.</span>filsDroit
+
+    <span class="token keyword">return</span> noeud_courant
+</code></pre>
+<p>💡 Une structure arborescente étant récursive par essence, on pourrait bien sûr facilement écrire une version récursive de cette fonction.</p>
+<h4 id="insertion-dun-élément-dans-larbre">Insertion d’un élément dans l’arbre</h4>
+<p>L’insertion d’un élément suit le même principe :</p>
+<pre class=" language-python"><code class="prism  language-python"><span class="token keyword">def</span> <span class="token function">inserer</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> valeur<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token keyword">if</span> self<span class="token punctuation">.</span>racine <span class="token keyword">is</span> <span class="token boolean">None</span><span class="token punctuation">:</span>         <span class="token comment"># Cas d'un arbre actuellement vide</span>
+        self<span class="token punctuation">.</span>racine <span class="token operator">=</span> valeur
+    <span class="token keyword">else</span><span class="token punctuation">:</span>
+        noeud_courant <span class="token operator">=</span> self
+        <span class="token keyword">while</span> <span class="token boolean">True</span><span class="token punctuation">:</span>
+            <span class="token keyword">if</span> noeud_courant<span class="token punctuation">.</span>racine <span class="token operator">&gt;</span> valeur<span class="token punctuation">:</span>
+                <span class="token keyword">if</span> noeud_courant<span class="token punctuation">.</span>filsGauche <span class="token keyword">is</span> <span class="token operator">not</span> <span class="token boolean">None</span><span class="token punctuation">:</span>
+                    noeud_courant <span class="token operator">=</span> noeud_courant<span class="token punctuation">.</span>filsGauche
+                <span class="token keyword">else</span><span class="token punctuation">:</span>
+                    noeud_courant<span class="token punctuation">.</span>filsGauche <span class="token operator">=</span> ArbreBinaireRecherche<span class="token punctuation">(</span>valeur<span class="token punctuation">)</span>
+                    <span class="token keyword">return</span>
+            <span class="token keyword">else</span><span class="token punctuation">:</span>
+                <span class="token keyword">if</span> noeud_courant<span class="token punctuation">.</span>filsDroit <span class="token keyword">is</span> <span class="token operator">not</span> <span class="token boolean">None</span><span class="token punctuation">:</span>
+                    noeud_courant <span class="token operator">=</span> noeud_courant<span class="token punctuation">.</span>filsDroit
+                <span class="token keyword">else</span><span class="token punctuation">:</span>
+                    noeud_courant<span class="token punctuation">.</span>filsDroit <span class="token operator">=</span> ArbreBinaireRecherche<span class="token punctuation">(</span>valeur<span class="token punctuation">)</span>
+                    <span class="token keyword">return</span>
+</code></pre>
+<h4 id="suppression-dun-élément">Suppression d’un élément</h4>
+<p>La difficulté lors de la suppression d’un élément dans un ABR est de s’assurer que l’arbre résultant est de nouveau un ABR. Quand le nœud à supprimer est une feuille ou n’a qu’un seul fils, c’est relativement facile ; mais c’est plus délicat quand ce nœud a deux fils (cf. cours). Dans ce cas, il faut le remplacer par son plus proche prédécesseur (le plus grand élément à sa gauche) ou son plus proche successeur (le plus petit élément à sa droite). On donne ici la version avec le <em>successeur</em>.</p>
+<p>L’identification de celui-ci est effectuée dans une fonction dédiée nommée <code>plusPetitFils()</code> (c’est toujours une bonne pratique que de découper un code en fonctions les plus spécialisées possible). Cette fonction renvoie le plus petit élément d’un arbre, c’est-à-dire l’élément le plus à gauche possible dans l’arbre :</p>
+<pre class=" language-python"><code class="prism  language-python"><span class="token keyword">def</span> <span class="token function">plusPetitFils</span><span class="token punctuation">(</span>self<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    courant <span class="token operator">=</span> self
+    <span class="token keyword">while</span> courant<span class="token punctuation">.</span>filsGauche<span class="token punctuation">:</span>
+        courant <span class="token operator">=</span> courant<span class="token punctuation">.</span>filsGauche
+    
+    <span class="token keyword">return</span> courant
+</code></pre>
+<p>Disposant de cette fonction, on a tous les éléments pour écrire la fonction <code>supprimer()</code> :</p>
+<pre class=" language-python"><code class="prism  language-python"><span class="token keyword">def</span> <span class="token function">supprimer</span><span class="token punctuation">(</span>self<span class="token punctuation">,</span> valeur<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment"># le noeud courant est une feuille et différent de la valeur à supprimer : on ne fait rien</span>
+    <span class="token keyword">if</span> <span class="token operator">not</span> self<span class="token punctuation">.</span>filsGauche <span class="token operator">and</span> <span class="token operator">not</span> self<span class="token punctuation">.</span>filsDroit <span class="token operator">and</span> self<span class="token punctuation">.</span>racine <span class="token operator">!=</span> valeur<span class="token punctuation">:</span>
+        <span class="token keyword">return</span> self
+    
+    <span class="token keyword">if</span> valeur <span class="token operator">&lt;</span> self<span class="token punctuation">.</span>racine<span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>filsGauche <span class="token operator">=</span> self<span class="token punctuation">.</span>filsGauche<span class="token punctuation">.</span>supprimer<span class="token punctuation">(</span>valeur<span class="token punctuation">)</span>
+    <span class="token keyword">elif</span> valeur <span class="token operator">&gt;</span> self<span class="token punctuation">.</span>racine<span class="token punctuation">:</span>
+        self<span class="token punctuation">.</span>filsDroit <span class="token operator">=</span> self<span class="token punctuation">.</span>filsDroit<span class="token punctuation">.</span>supprimer<span class="token punctuation">(</span>valeur<span class="token punctuation">)</span>
+    <span class="token keyword">else</span><span class="token punctuation">:</span>
+        <span class="token comment"># le noeud à supprimer est une feuille</span>
+        <span class="token keyword">if</span> <span class="token operator">not</span> self<span class="token punctuation">.</span>filsGauche <span class="token operator">and</span> <span class="token operator">not</span> self<span class="token punctuation">.</span>filsDroit<span class="token punctuation">:</span>
+            <span class="token keyword">return</span> <span class="token boolean">None</span>
+
+        <span class="token comment"># le noeud à supprimer a seulement un fils gauche</span>
+        <span class="token keyword">elif</span> <span class="token operator">not</span> self<span class="token punctuation">.</span>filsDroit<span class="token punctuation">:</span>
+            tmp <span class="token operator">=</span> self<span class="token punctuation">.</span>filsGauche
+            <span class="token keyword">return</span> tmp
+
+        <span class="token comment"># le noeud à supprimer a seulement un fils droit</span>
+        <span class="token keyword">elif</span> <span class="token operator">not</span> self<span class="token punctuation">.</span>filsGauche<span class="token punctuation">:</span>
+            tmp <span class="token operator">=</span> self<span class="token punctuation">.</span>filsDroit
+            <span class="token keyword">return</span> tmp
+
+        <span class="token comment"># le noeud à supprimer a deux fils</span>
+        <span class="token keyword">else</span><span class="token punctuation">:</span>
+            tmp <span class="token operator">=</span> self<span class="token punctuation">.</span>filsDroit<span class="token punctuation">.</span>plusPetitFils<span class="token punctuation">(</span><span class="token punctuation">)</span>
+            self<span class="token punctuation">.</span>racine <span class="token operator">=</span> tmp<span class="token punctuation">.</span>racine
+            self<span class="token punctuation">.</span>filsDroit <span class="token operator">=</span> self<span class="token punctuation">.</span>filsDroit<span class="token punctuation">.</span>supprimer<span class="token punctuation">(</span>tmp<span class="token punctuation">.</span>racine<span class="token punctuation">)</span>
+    
+    <span class="token keyword">return</span> self
+</code></pre>
+<h2 id="exercice-5---akinator">Exercice 5 - Akinator</h2>
+<p>Un exemple de correction, qui réutilise une fois de plus les classes écrites précédemment :</p>
+<pre class=" language-python"><code class="prism  language-python"><span class="token keyword">from</span> ArbreBinaire <span class="token keyword">import</span> ArbreBinaire
+
+<span class="token keyword">def</span> <span class="token function">yes</span><span class="token punctuation">(</span>ques<span class="token punctuation">)</span><span class="token punctuation">:</span>
+    ans <span class="token operator">=</span> <span class="token builtin">input</span><span class="token punctuation">(</span>ques<span class="token punctuation">)</span><span class="token punctuation">.</span>lower<span class="token punctuation">(</span><span class="token punctuation">)</span>
+    <span class="token keyword">return</span> ans<span class="token punctuation">[</span><span class="token number">0</span><span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token string">'o'</span>
+
+<span class="token keyword">def</span> <span class="token function">animal</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">:</span>
+    <span class="token comment"># start with a singleton</span>
+    root <span class="token operator">=</span> ArbreBinaire<span class="token punctuation">(</span><span class="token string">"oiseau"</span><span class="token punctuation">)</span>
+
+    <span class="token comment"># loop until the user quits</span>
+    <span class="token keyword">while</span> <span class="token boolean">True</span><span class="token punctuation">:</span>
+        <span class="token keyword">print</span>
+        <span class="token keyword">if</span> <span class="token operator">not</span> yes<span class="token punctuation">(</span><span class="token string">"Pensez-vous à un animal ? "</span><span class="token punctuation">)</span><span class="token punctuation">:</span> <span class="token keyword">break</span>
+
+        <span class="token comment"># walk the tree</span>
+        tree <span class="token operator">=</span> root
+        <span class="token keyword">while</span> tree<span class="token punctuation">.</span>filsGauche <span class="token operator">!=</span> <span class="token boolean">None</span><span class="token punctuation">:</span>
+            prompt <span class="token operator">=</span> tree<span class="token punctuation">.</span>racine <span class="token operator">+</span> <span class="token string">" ? "</span>
+            <span class="token keyword">if</span> yes<span class="token punctuation">(</span>prompt<span class="token punctuation">)</span><span class="token punctuation">:</span>
+                tree <span class="token operator">=</span> tree<span class="token punctuation">.</span>filsDroit
+            <span class="token keyword">else</span><span class="token punctuation">:</span>
+                tree <span class="token operator">=</span> tree<span class="token punctuation">.</span>filsGauche
+
+        <span class="token comment"># make a guess</span>
+        guess <span class="token operator">=</span> tree<span class="token punctuation">.</span>racine
+        prompt <span class="token operator">=</span> <span class="token string">"Est-ce un "</span> <span class="token operator">+</span> guess <span class="token operator">+</span> <span class="token string">" ? "</span>
+        <span class="token keyword">if</span> yes<span class="token punctuation">(</span>prompt<span class="token punctuation">)</span><span class="token punctuation">:</span>
+            <span class="token keyword">print</span><span class="token punctuation">(</span><span class="token string">"J'ai trouvé !"</span><span class="token punctuation">)</span>
+            <span class="token keyword">continue</span>
+
+        <span class="token comment"># get new information</span>
+        prompt  <span class="token operator">=</span> <span class="token string">"Quel est le nom de l'animal ? "</span>
+        animal  <span class="token operator">=</span> <span class="token builtin">input</span><span class="token punctuation">(</span>prompt<span class="token punctuation">)</span>
+        prompt  <span class="token operator">=</span> <span class="token string">"Quelle question distinguerait un %s d'un %s ? "</span>
+        question <span class="token operator">=</span> <span class="token builtin">input</span><span class="token punctuation">(</span>prompt <span class="token operator">%</span> <span class="token punctuation">(</span>animal<span class="token punctuation">,</span> guess<span class="token punctuation">)</span><span class="token punctuation">)</span>
+
+        <span class="token comment"># add new information to the tree</span>
+        tree<span class="token punctuation">.</span>racine <span class="token operator">=</span> question
+        prompt <span class="token operator">=</span> <span class="token string">"Si l'animal était un %s, quelle serait la réponse à cette question ? "</span>
+        <span class="token keyword">if</span> yes<span class="token punctuation">(</span>prompt <span class="token operator">%</span> animal<span class="token punctuation">)</span><span class="token punctuation">:</span>
+            tree<span class="token punctuation">.</span>filsGauche <span class="token operator">=</span> ArbreBinaire<span class="token punctuation">(</span>guess<span class="token punctuation">)</span>
+            tree<span class="token punctuation">.</span>filsDroit <span class="token operator">=</span> ArbreBinaire<span class="token punctuation">(</span>animal<span class="token punctuation">)</span>
+        <span class="token keyword">else</span><span class="token punctuation">:</span>
+            tree<span class="token punctuation">.</span>filsGauche <span class="token operator">=</span> ArbreBinaire<span class="token punctuation">(</span>animal<span class="token punctuation">)</span>
+            tree<span class="token punctuation">.</span>filsDroit <span class="token operator">=</span> ArbreBinaire<span class="token punctuation">(</span>guess<span class="token punctuation">)</span>
+
+animal<span class="token punctuation">(</span><span class="token punctuation">)</span>
+</code></pre>
+<blockquote>
+<p>Written with <a href="https://stackedit.io/">StackEdit</a>.</p>
+</blockquote>
+
+    </div>
+  </div>
+</body>
+
+</html>
